@@ -7,10 +7,11 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	}
 }
 
-apply plugin: 'java'
+apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
