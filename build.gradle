@@ -7,7 +7,6 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	}
 }
 
@@ -26,5 +25,6 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-jersey')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
