@@ -11,3 +11,7 @@ return : {"msg":"hello"}
 
 # how to contribute 
  http://kbroman.org/github_tutorial/pages/fork.html
+
+
+# spring boot + mybatis sample
+https://github.ibm.com/TssCloudTM/esoloution_v2
