@@ -15,6 +15,7 @@ public class WechatApplication extends SpringBootServletInitializer
     }
 
 	public static void main(String[] args) {
+        //System.out.print("hello");
 		SpringApplication.run(WechatApplication.class, args);
 	}
 }
