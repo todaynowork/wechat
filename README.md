@@ -15,3 +15,13 @@ return : {"msg":"hello"}
 
 # spring boot + mybatis sample
 https://github.ibm.com/TssCloudTM/esoloution_v2
+
+# spring profiles - production
+when you want to enable security test, please 
+option 1:
+application.properties
+spring.profiles.active=production
+
+option 2: add -Dspring.profiles.active=production to JAVA_OPS 
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html
