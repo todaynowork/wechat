@@ -6,6 +6,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
+//        classpath("io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE")
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
@@ -21,14 +22,29 @@ repositories {
 	mavenCentral()
 }
 
+//dependencyManagement {
+//    dependencies {
+//        dependency('org.springframework.boot:spring-boot-starter-web:4.0.3.RELEASE') {
+//            exclude 'org.springframework.boot:spring-boot-starter-logging'
+//        }
+//    }
+//}
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-jersey')
+//	compile('org.springframework.boot:spring-boot-starter-jersey')
 	compile('org.springframework.boot:spring-boot-starter-web')
+//            {
+//		exclude module: 'spring-boot-starter-logging'
+//	}
+//    compile('org.springframework.boot:spring-boot-starter-log4j2')
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('org.mybatis:mybatis:3.4.5')
 	compile('org.hsqldb:hsqldb:2.4.0')
 }
+
+//configurations {
+//    compile.exclude group:'ch.qos.logback'
+//}
 
 // mainClassName = "com.tn.wechat.WechatApplication"
