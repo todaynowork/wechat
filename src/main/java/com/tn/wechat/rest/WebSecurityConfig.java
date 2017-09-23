@@ -2,6 +2,7 @@ package com.tn.wechat.rest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
  * Created by chengchao.dong on 9/9/2017.
  */
 @Configuration
+@Profile("production")
 public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
     //
     public final static String SESSION_KEY = "user";
