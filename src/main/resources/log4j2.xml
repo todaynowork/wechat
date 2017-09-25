@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Properties>
-        <Property name="filename">target/test.log</Property>
+        <Property name="filename">logs/wechat.log</Property>
     </Properties>
 <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
@@ -14,11 +14,11 @@
 
 </Appenders>
 <Loggers>
-    <Logger name="com.tn.wechat" level="trace" additivity="false">
+    <Logger name="com.tn.wechat" level="debug" additivity="false">
         <AppenderRef ref="File"/>
+        <AppenderRef ref="Console"/>
     </Logger>
-    <Root level="error">
-        <!--<AppenderRef ref="Console"/>-->
+    <Root level="debug">
         <AppenderRef ref="File"/>
         <AppenderRef ref="Console"/>
     </Root>
