@@ -25,3 +25,13 @@ spring.profiles.active=production
 option 2: add -Dspring.profiles.active=production to JAVA_OPS 
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html
+# add log instead of System.out
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+private static Logger logger = LoggerFactory.getLogger(WechatApplication.class);
+
+
+logger.info(" start from command line");
+
