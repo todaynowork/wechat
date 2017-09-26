@@ -23,7 +23,6 @@ public class CourseJson {
 			List<Course> courseList = new ArrayList<Course>();
 			courseList = courseDao.getCourseInfo();
 			
-			List<Object> courseList1 = new ArrayList<Object>();
 			
 			for (Course course : courseList) {
 //				courseMap.put("id", course.getId());
