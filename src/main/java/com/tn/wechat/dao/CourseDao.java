@@ -27,11 +27,4 @@ public class CourseDao {
 		}
 		return courseList;
 	}
-//	public static void main(String[] args) {
-//		CourseDao forumDao = new CourseDao();
-//		List<Forum> forumList = forumDao.getForumInfo();
-//		for (Forum forum : forumList) {
-//			System.out.println(forum.toString());
-//		}
-//	}
 }

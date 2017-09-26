@@ -25,11 +25,14 @@
   <resultMap type="com.tn.wechat.entity.Course" id="CourseResult">
     <result column="id" jdbcType="INTEGER" property="id"/>
     <result column="name" jdbcType="VARCHAR" property="courseName"/>
-    <result column="rate" jdbcType="VARCHAR" property="courseRate"/>
     <result column="detail" jdbcType="VARCHAR" property="courseDetail"/>
+    <result column="coursenumber" jdbcType="VARCHAR" property="courseNumber"/>
+     <result column="issubscribe" jdbcType="BOOLEAN" property="isSubscribe"/>
+    
+   
   </resultMap>
   
   <select id="select" resultMap="CourseResult">
-  	SELECT id,name,rate,detail FROM course WHERE 1=1	
+  	SELECT id,name,detail,coursenumber, issubscribe FROM course WHERE 1=1	
   </select>
 </mapper>

@@ -1,18 +1,17 @@
 package com.tn.wechat.entity;
 
 public class Course {
-	private int courseId;
-	private String courseName;
-	private String courseRate;
-	private String courseDetail;
-	private int id;
+	int id;
+	String courseName;
+	String courseDetail;
+	String courseNumber;
+	boolean isSubscribe;
 	
-	
-	public int getCourseId() {
-		return courseId;
+	public int getId() {
+		return id;
 	}
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getCourseName() {
 		return courseName;
@@ -20,26 +19,24 @@ public class Course {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-	public String getCourseRate() {
-		return courseRate;
-	}
-	public void setCourseRate(String courseRate) {
-		this.courseRate = courseRate;
-	}
 	public String getCourseDetail() {
 		return courseDetail;
 	}
 	public void setCourseDetail(String courseDetail) {
 		this.courseDetail = courseDetail;
 	}
-	public int getId() {
-		return id;
+	public String getCourseNumber() {
+		return courseNumber;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setCourseNumber(String courseNumber) {
+		this.courseNumber = courseNumber;
 	}
-	
-	
+	public boolean isSubscribe() {
+		return isSubscribe;
+	}
+	public void setSubscribe(boolean isSubscribe) {
+		this.isSubscribe = isSubscribe;
+	}
 	
 	
 }
