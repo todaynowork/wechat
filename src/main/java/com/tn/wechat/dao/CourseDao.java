@@ -27,4 +27,12 @@ public class CourseDao {
 		}
 		return courseList;
 	}
+	
+	public Course getCourseByID(String courseNumber) throws IOException{
+		DBHelper dbHelper = new DBHelper();
+		SqlSession sqlSession = null;
+		sqlSession = dbHelper.getSqlSession();
+		return sqlSession.selectOne("Course.getCoursebyID",courseNumber);
+	}
+	
 }

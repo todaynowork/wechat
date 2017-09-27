@@ -1,11 +1,14 @@
 package com.tn.wechat.rest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tn.wechat.dao.CourseDao;
@@ -35,4 +38,18 @@ public class CourseJson {
 			}
 			return courseMap;
 		}
+	
+	@RequestMapping(path="/coursejson/{courseNumber}", method=RequestMethod.GET)
+	public Course getCourseByID(@PathVariable String courseNumber) throws IOException {
+		CourseDao courseDao = new CourseDao();
+		Course course = new Course();
+		course = courseDao.getCourseByID(courseNumber);
+		if(course==null) {
+			return null;
+		}
+		else {
+			return course;
+			//System.out.println("eeeeeeeeee"+course.getCourseNumber()+"   "+course.getCourseName());
+		}
+	}
 }
