@@ -17,5 +17,5 @@
 -->
 <!-- The contents of this file will be loaded for each web application -->
 <Context>
-    <Parameter name="spring.profiles.active" value="production" />
+    <Parameter name="spring.profiles.active" value="dev" />
 </Context>
