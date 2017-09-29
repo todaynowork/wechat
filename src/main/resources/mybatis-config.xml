@@ -49,5 +49,6 @@
     <mapper resource="User.xml"/>
     <mapper resource="Forum.xml"/>
     <mapper resource="Reply.xml"/>
+    <mapper resource="Course.xml"/>
   </mappers>
 </configuration>
