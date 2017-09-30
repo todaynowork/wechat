@@ -63,7 +63,7 @@ public class LogInController extends HttpServlet{
     }
 
     @PostMapping("/loginPost")
-    public @ResponseBody Map<String, Object> loginPost(@RequestBody String code, HttpSession session) {
+    public @ResponseBody Map<String, Object> loginPost(@RequestParam(value="code", required=true, defaultValue="")  String code, HttpSession session) {
         Map<String, Object> map = new HashMap<>();
         // 设置session
         String getCodeUrl = getCodeUrl(code);
