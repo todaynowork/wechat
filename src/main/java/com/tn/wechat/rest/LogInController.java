@@ -4,6 +4,7 @@ package com.tn.wechat.rest;
 //import com.fasterxml.jackson.databind.util.JSONPObject;
 
 //import org.json.JSONObject;
+import com.tn.wechat.req.Login;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,26 @@ public class LogInController extends HttpServlet{
     public Map<String, Object> login() {
         Map<String, Object> map = new HashMap<>();
         map.put("message:", "test");
+        return map;
+    }
+
+    @PostMapping("/loginPostTest")
+    public @ResponseBody Map<String, Object> loginPostTest(@RequestBody Login login, HttpSession session) {
+        Map<String, Object> map = new HashMap<>();
+        // 设置session
+        String getCodeUrl = getCodeUrl(login.getCode());
+        String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
+        map = JsonTransfer.readJson2Map(getContent);
+        if (!(map.get("errmsg") == null)) {
+            map.put("errmessage:", map.get("errmsg"));
+            return map;
+        }
+//        map.put("session_id","123456789");
+        String session3ed = session.getId();
+        session.setAttribute(WebSecurityConfig.SESSION_KEY, map.get("openid"));
+        session.setAttribute(session3ed,map.get("session_id"));
+        map.put("message:", session.getAttribute(WebSecurityConfig.SESSION_KEY));
+        map.put("sessionid:",session3ed);
         return map;
     }
 
