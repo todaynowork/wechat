@@ -77,7 +77,7 @@ public class LogInController extends HttpServlet{
 //        map.put("session_id","123456789");
         String session3ed = session.getId();
         session.setAttribute(WebSecurityConfig.SESSION_KEY, map.get("openid"));
-        session.setAttribute(session3ed,map.get("session_id"));
+        session.setAttribute(session3ed,map.get("session_key"));
         map.put("message", session.getAttribute(WebSecurityConfig.SESSION_KEY));
         map.put("sessionid",session3ed);
         return map;
