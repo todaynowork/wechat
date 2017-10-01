@@ -63,7 +63,7 @@ public class LogInController extends HttpServlet{
         return map;
     }
 
-    @PostMapping("/loginPostTest")
+    @PostMapping("/loginPost")
     public @ResponseBody Map<String, Object> loginPostTest(@RequestBody Login login, HttpSession session) {
         Map<String, Object> map = new HashMap<>();
         // 设置session
@@ -83,7 +83,7 @@ public class LogInController extends HttpServlet{
         return map;
     }
 
-    @PostMapping("/loginPost")
+    @PostMapping("/loginPostTest")
     public @ResponseBody Map<String, Object> loginPost(@RequestParam(value="code", required=true, defaultValue="")  String code, HttpSession session) {
         Map<String, Object> map = new HashMap<>();
         // 设置session
