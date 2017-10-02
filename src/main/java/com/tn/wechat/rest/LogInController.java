@@ -5,15 +5,15 @@ package com.tn.wechat.rest;
 
 //import org.json.JSONObject;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,8 +46,13 @@ public class LogInController extends HttpServlet{
         return getCodeUrl;
     }
 
+//    @GetMapping("/")
+//    public String index(@SessionAttribute(WebSecurityConfig.SESSION_KEY) String account, HttpSession session) {
+//        return session.getId();
+//    }
+
     @GetMapping("/")
-    public String index(@SessionAttribute(WebSecurityConfig.SESSION_KEY) String account, HttpSession session) {
+    public String index(HttpSession session) {
         return session.getId();
     }
 
@@ -66,29 +71,57 @@ public class LogInController extends HttpServlet{
     }
 
     @PostMapping("/loginPost")
-    public @ResponseBody Map<String, Object> loginPost(@RequestBody String code, HttpSession session) {
+    public @ResponseBody LoginInfo loginPost(HttpSession session, @RequestHeader HttpHeaders headers) {
         Map<String, Object> map = new HashMap<>();
+        LoginInfo loginInfo = new LoginInfo();
+        System.out.println("start");
+//        System.out.println(headers.get("sessionid"));
+        // for test
+        String sessionIdFromHeader = headers.getFirst("sessionid");
+        if (!(headers.get("sessionid") == null || headers.get("openid") == null)){
+            System.out.println(sessionIdFromHeader);
+            System.out.println(session.getId());
+            if(sessionIdFromHeader.equals(session.getId())){
+                loginInfo.setOpenId(headers.getFirst("openid").toString());
+                loginInfo.setSessionId(sessionIdFromHeader);
+//                loginInfo.setAdditionalProperty("message","logged in");
+                System.out.println("logged in");
+                return loginInfo;
+            }
+            System.out.println("session not match");
+            return null;
+        }
         // 设置session
+        if (headers.get("code") == null){
+            //miss code in header
+            return null;
+        }
+        String code = headers.get("code").toString();
         String getCodeUrl = getCodeUrl(code);
         String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
         map = JsonTransfer.readJson2Map(getContent);
-        if (!(map.get("errmsg") == null)) {
-            map.put("errmessage:", map.get("errmsg"));
-            return map;
-        }
-//        map.put("session_id","123456789");
-        String session3ed = session.getId();
-        session.setAttribute(WebSecurityConfig.SESSION_KEY, map.get("openid"));
-        session.setAttribute(session3ed,map.get("session_id"));
-        map.put("message:", session.getAttribute(WebSecurityConfig.SESSION_KEY));
-        map.put("sessionid:",session3ed);
-        return map;
+//        if (!(map.get("errmsg") == null)) {
+//            map.put("errmessage:", map.get("errmsg"));
+//            return null;
+//        }
+        map.put("session_id","123456789");
+        map.put("openid","test1");
+        System.out.println(map);
+        loginInfo.setOpenId((String)map.get("openid"));
+        loginInfo.setSessionId(session.getId());
+//        loginInfo.setAdditionalProperty("message","session created");
+        String sessionIdFromWechat = (String)map.get("session_id");
+        session.setAttribute(loginInfo.getSessionId(),sessionIdFromWechat);
+        headers.set("sessionid",loginInfo.getSessionId());
+        headers.set("openid",loginInfo.getOpenId());
+        System.out.println(headers.toString());
+        return loginInfo;
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         // 移除session
-        session.removeAttribute(WebSecurityConfig.SESSION_KEY);
+        session.removeAttribute(session.getAttribute(session.getId().toString()).toString());
         return "redirect:/login";
     }
 }

@@ -19,7 +19,8 @@ import javax.servlet.http.HttpSession;
 @Profile("production")
 public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
     //
-    public final static String SESSION_KEY = "user";
+//    public static String openId;
+//    public static String sessionId;
     @Bean
     public SecurityInterceptor getSecurityInterceptor() {
         return new SecurityInterceptor();
@@ -43,14 +44,14 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
                 throws Exception {
             HttpSession session = request.getSession();
-            if (session.getAttribute(SESSION_KEY) != null && session.getAttribute(session.getId()) != null) {
+//            Object openId = session.getAttribute(session.getAttribute(session.getId()).toString());
+            if (session.getAttribute(session.getId()) != null ) {
                 //add session check
                 return true;
             }
             // 跳转登录
-            System.out.println("session:");
-            System.out.println(session);
             System.out.println("session id :" + session.getId());
+            System.out.println("sessin_id:" + session.getAttribute(session.getId()));
             String url = "/errorlogin";
             response.sendRedirect(url);
             return false;
