@@ -100,12 +100,12 @@ public class LogInController extends HttpServlet{
         String getCodeUrl = getCodeUrl(code);
         String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
         map = JsonTransfer.readJson2Map(getContent);
-//        if (!(map.get("errmsg") == null)) {
-//            map.put("errmessage:", map.get("errmsg"));
-//            return null;
-//        }
-        map.put("session_id","123456789");
-        map.put("openid","test1");
+        if (!(map.get("errmsg") == null)) {
+            map.put("errmessage:", map.get("errmsg"));
+            return null;
+        }
+//        map.put("session_id","123456789");
+//        map.put("openid","test1");
         System.out.println(map);
         loginInfo.setOpenId((String)map.get("openid"));
         loginInfo.setSessionId(session.getId());
