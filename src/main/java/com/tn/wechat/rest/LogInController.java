@@ -4,30 +4,32 @@ package com.tn.wechat.rest;
 //import com.fasterxml.jackson.databind.util.JSONPObject;
 
 //import org.json.JSONObject;
-import com.tn.wechat.req.Login;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class LogInController extends HttpServlet{
-
-    @Value("${wx.url}")
-    private String Get_Code = "";
-    @Value("${wx.appId}")
-    private String  APPID = "";
-    @Value("${wx.secret}")
-    private String SECRET = "";
-
+    private static String Get_Code = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
+    private final String  APPID = "wxab931d22fde028bc";
+    private final String SECRET = "00991f0e10eba1fab3996c1736e3f1ca";
     public String getCodeUrl(String code){
         return String.format(Get_Code,APPID,SECRET,code);
     }
@@ -44,8 +46,13 @@ public class LogInController extends HttpServlet{
         return getCodeUrl;
     }
 
+//    @GetMapping("/")
+//    public String index(@SessionAttribute(WebSecurityConfig.SESSION_KEY) String account, HttpSession session) {
+//        return session.getId();
+//    }
+
     @GetMapping("/")
-    public String index(@SessionAttribute(WebSecurityConfig.SESSION_KEY) String account, HttpSession session) {
+    public String index(HttpSession session) {
         return session.getId();
     }
 
@@ -64,49 +71,57 @@ public class LogInController extends HttpServlet{
     }
 
     @PostMapping("/loginPost")
-    public @ResponseBody Map<String, Object> loginPostTest(@RequestBody Login login, HttpSession session) {
+    public @ResponseBody LoginInfo loginPost(HttpSession session, @RequestHeader HttpHeaders headers) {
         Map<String, Object> map = new HashMap<>();
-        // 设置session
-        String getCodeUrl = getCodeUrl(login.getCode());
-        String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
-        map = JsonTransfer.readJson2Map(getContent);
-        if (!(map.get("errmsg") == null)) {
-            map.put("errmessage", map.get("errmsg"));
-            return map;
+        LoginInfo loginInfo = new LoginInfo();
+        System.out.println("start");
+//        System.out.println(headers.get("sessionid"));
+        // for test
+        String sessionIdFromHeader = headers.getFirst("sessionid");
+        if (!(headers.get("sessionid") == null || headers.get("openid") == null)){
+            System.out.println(sessionIdFromHeader);
+            System.out.println(session.getId());
+            if(sessionIdFromHeader.equals(session.getId())){
+                loginInfo.setOpenId(headers.getFirst("openid").toString());
+                loginInfo.setSessionId(sessionIdFromHeader);
+//                loginInfo.setAdditionalProperty("message","logged in");
+                System.out.println("logged in");
+                return loginInfo;
+            }
+            System.out.println("session not match");
+            return null;
         }
-//        map.put("session_id","123456789");
-        String session3ed = session.getId();
-        session.setAttribute(WebSecurityConfig.SESSION_KEY, map.get("openid"));
-        session.setAttribute(session3ed,map.get("session_key"));
-        map.put("message", session.getAttribute(WebSecurityConfig.SESSION_KEY));
-        map.put("sessionid",session3ed);
-        return map;
-    }
-
-    @PostMapping("/loginPostTest")
-    public @ResponseBody Map<String, Object> loginPost(@RequestParam(value="code", required=true, defaultValue="")  String code, HttpSession session) {
-        Map<String, Object> map = new HashMap<>();
         // 设置session
+        if (headers.get("code") == null){
+            //miss code in header
+            return null;
+        }
+        String code = headers.get("code").toString();
         String getCodeUrl = getCodeUrl(code);
         String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
         map = JsonTransfer.readJson2Map(getContent);
         if (!(map.get("errmsg") == null)) {
             map.put("errmessage:", map.get("errmsg"));
-            return map;
+            return null;
         }
 //        map.put("session_id","123456789");
-        String session3ed = session.getId();
-        session.setAttribute(WebSecurityConfig.SESSION_KEY, map.get("openid"));
-        session.setAttribute(session3ed,map.get("session_id"));
-        map.put("message", session.getAttribute(WebSecurityConfig.SESSION_KEY));
-        map.put("sessionid",session3ed);
-        return map;
+//        map.put("openid","test1");
+        System.out.println(map);
+        loginInfo.setOpenId((String)map.get("openid"));
+        loginInfo.setSessionId(session.getId());
+//        loginInfo.setAdditionalProperty("message","session created");
+        String sessionIdFromWechat = (String)map.get("session_id");
+        session.setAttribute(loginInfo.getSessionId(),sessionIdFromWechat);
+        headers.set("sessionid",loginInfo.getSessionId());
+        headers.set("openid",loginInfo.getOpenId());
+        System.out.println(headers.toString());
+        return loginInfo;
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         // 移除session
-        session.removeAttribute(WebSecurityConfig.SESSION_KEY);
+        session.removeAttribute(session.getAttribute(session.getId().toString()).toString());
         return "redirect:/login";
     }
 }
