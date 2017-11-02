@@ -20,21 +20,26 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="Forum">
+<mapper namespace="Course">
 
-  <resultMap type="com.tn.wechat.entity.Forum" id="ForumResult">
-    <result column="openid" jdbcType="VARCHAR" property="openid"/>
-    <result column="username" jdbcType="VARCHAR" property="userName"/>
-    <result column="topic" jdbcType="VARCHAR" property="topic"/>
-    <result column="detail" jdbcType="VARCHAR" property="detail"/>
-    <result column="date" jdbcType="VARCHAR" property="date"/>
+  <resultMap type="com.tn.wechat.entity.Course" id="CourseResult">
     <result column="id" jdbcType="INTEGER" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="courseName"/>
+    <result column="detail" jdbcType="VARCHAR" property="courseDetail"/>
+    <result column="coursenumber" jdbcType="VARCHAR" property="courseNumber"/>
+     <result column="issubscribe" jdbcType="BOOLEAN" property="isSubscribe"/>
+    
+   
   </resultMap>
-  <select id="select" resultMap="ForumResult">
-  	SELECT openid,username,topic,detail,forum_tag,forum_date,id FROM forum WHERE 1=1	
+  
+  <select id="select" resultMap="CourseResult">
+  	SELECT id,name,detail,coursenumber, issubscribe FROM course WHERE 1=1	
   </select>
-  <select id="getMyQeustion" resultMap="ForumResult" parameterType="String">
-  	SELECT openid,username,topic,detail,date,id FROM forum WHERE
-  	  openid = #{openid}
-  </select>
+  
+  <select id="getCoursebyID" parameterType="String"
+		resultMap="CourseResult">
+		SELECT name,detail,coursenumber, issubscribe FROM course
+		WHERE coursenumber = #{courseNumber}
+	</select>
+  
 </mapper>

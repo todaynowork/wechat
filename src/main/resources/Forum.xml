@@ -27,9 +27,14 @@
     <result column="username" jdbcType="VARCHAR" property="userName"/>
     <result column="topic" jdbcType="VARCHAR" property="topic"/>
     <result column="detail" jdbcType="VARCHAR" property="detail"/>
+    <result column="date" jdbcType="VARCHAR" property="date"/>
     <result column="id" jdbcType="INTEGER" property="id"/>
   </resultMap>
   <select id="select" resultMap="ForumResult">
-  	SELECT openid,username,topic,detail,id FROM forum WHERE 1=1	
+  	SELECT openid,username,topic,detail,forum_tag,forum_date,id FROM forum WHERE 1=1	
+  </select>
+  <select id="getMyQeustion" resultMap="ForumResult" parameterType="String">
+  	SELECT openid,username,topic,detail,date,id FROM forum WHERE
+  	  openid = #{openid}
   </select>
 </mapper>

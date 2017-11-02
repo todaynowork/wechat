@@ -39,8 +39,9 @@
       </transactionManager>
       <dataSource type="UNPOOLED">
         <property name="driver" value="org.hsqldb.jdbcDriver"/>
-        <property name="url" value="jdbc:hsqldb:hsql://localhost:9001/wedb"/>
+        <property name="url" value="jdbc:hsqldb:hsql://todaynowork.group:9001/wechat"/>
         <property name="username" value="sa"/>
+        <property name="password" value="wechat43s"/>
       </dataSource>
     </environment>
   </environments>
@@ -48,5 +49,6 @@
     <mapper resource="User.xml"/>
     <mapper resource="Forum.xml"/>
     <mapper resource="Reply.xml"/>
+    <mapper resource="Course.xml"/>
   </mappers>
 </configuration>

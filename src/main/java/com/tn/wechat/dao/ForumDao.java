@@ -27,11 +27,22 @@ public class ForumDao {
 		}
 		return forumList;
 	}
-	public static void main(String[] args) {
-		ForumDao forumDao = new ForumDao();
-		List<Forum> forumList = forumDao.getForumInfo();
-		for (Forum forum : forumList) {
-			System.out.println(forum.toString());
+//********************************************************
+	public List<Forum> getMyQuestion(String openid){
+		DBHelper dbHelper = new DBHelper();
+		SqlSession sqlSession = null;
+		List<Forum> forumList = new ArrayList<Forum>();
+		try{
+			sqlSession = dbHelper.getSqlSession();
+			forumList = sqlSession.selectList("Forum.getMyQuestion",openid);
+		}catch(IOException e){
+			e.printStackTrace();
+		}finally {
+			if(sqlSession!=null){
+				sqlSession.close();
+				sqlSession=null;
+			}
 		}
+		return forumList;
 	}
 }

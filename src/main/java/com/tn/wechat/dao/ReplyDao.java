@@ -22,10 +22,4 @@ public class ReplyDao {
 		}
 		return replyList;
 	}
-	public static void main(String[] args) {
-		ReplyDao replyDao = new ReplyDao();
-		for (Reply reply : replyDao.getReplyInfo()) {
-			System.out.println(reply.toString());
-		}
-	}
 }

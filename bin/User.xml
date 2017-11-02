@@ -23,10 +23,22 @@
 <mapper namespace="User">
 
   <resultMap type="com.tn.wechat.entity.User" id="UserResult">
-    <result column="name" jdbcType="VARCHAR" property="name"/>
-    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="openid" jdbcType="VARCHAR" property="openid"/>
+    <result column="nick_name" jdbcType="VARCHAR" property="nick_name"/>
+    <result column="goal" jdbcType="INTEGER" property="goal"/>
+    <result column="favorite" jdbcType="VARCHAR" property="favorite"/>
   </resultMap>
-  <select id="select" resultMap="UserResult">
-  	SELECT name,password FROM user WHERE 1=1	
+  <select id="getFavorite" resultMap="UserResult" parameterType="String">
+  	SELECT favorite FROM user WHERE
+  	  openid = #{openid}
   </select>
+  <update id="updateFavorite" parameterType="com.tn.wechat.entity.User">
+  	UPDATE USER
+  	<trim prefix="SET" suffixOverrides=",">
+  	<if test="null != favorite and '' != favorite">
+  		favorite = #{favorite},
+  		</if>
+  	</trim>
+  	WHERE openid = #{openid}	
+  </update>
 </mapper>
