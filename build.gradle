@@ -46,6 +46,7 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('org.mybatis:mybatis:3.4.5')
 	compile('org.hsqldb:hsqldb:2.4.0')
+	compile group: 'org.json', name: 'json', version: '20171018'
 }
 
 // mainClassName = "com.tn.wechat.WechatApplication"
