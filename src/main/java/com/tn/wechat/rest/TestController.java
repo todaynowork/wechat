@@ -56,6 +56,6 @@ public class TestController {
         ques.setOwner("123456");
 
         questionsMapper.insert(ques);
-        return questionsMapper.selectByPrimaryKey( ques.getId());
+        return questionsMapper.selectByPrimaryKeyWithAnswer( ques.getId());
     }
 }
