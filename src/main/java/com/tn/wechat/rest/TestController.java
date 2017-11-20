@@ -12,26 +12,43 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @Autowired
-    AnswerMapper answer;
+    private AnswerMapper answer;
 
     @Autowired
-    QuestionMapper questionsMapper;
+    public void setAnswer(AnswerMapper answer){
+        this.answer = answer;
+    }
 
     @Autowired
-    UserMapper usersMapper;
+    public void setQuestionsMapper(QuestionMapper questionsMapper){
+        this.questionsMapper = questionsMapper;
+    }
+
+    private QuestionMapper questionsMapper;
+
+    @Autowired
+    public void setUsersMapper(UserMapper usersMapper){
+        this.usersMapper = usersMapper;
+
+    }
+
+    private UserMapper usersMapper;
 
 
     @RequestMapping(path = "/json")
-    String helloJson(){
+    Question helloJson(){
+        try{
+            User user = new User();
+            user.setOpenId("123456");
+            user.setEmail("ddddd");
+            user.setNickName("dddddddccc");
+            user.setAvatorUrl("dddddddccc");
 
-        User user = new User();
-        user.setOpenId("123456");
-        user.setEmail("ddddd");
-        user.setNickName("dddddddccc");
-        user.setAvatorUrl("dddddddccc");
+            usersMapper.insert(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-        usersMapper.insert(user);
 
         Question ques= new Question();
 
@@ -39,7 +56,6 @@ public class TestController {
         ques.setOwner("123456");
 
         questionsMapper.insert(ques);
-        answer.selectByPrimaryKey( new Integer(1));
-        return "{\"msg\":\"hello\"}";
+        return questionsMapper.selectByPrimaryKey( ques.getId());
     }
 }
