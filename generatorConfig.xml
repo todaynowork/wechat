@@ -4,7 +4,7 @@
   <context id="context1">
     <jdbcConnection connectionURL="jdbc:hsqldb:hsql://localhost/testdb" driverClass="org.hsqldb.jdbc.JDBCDriver" userId="SA" />
     <javaModelGenerator targetPackage="com.mybatis" targetProject="wechat" />
-    <sqlMapGenerator targetPackage="xml" targetProject="wechat" />
+    <sqlMapGenerator targetPackage="xml" targetProject='\wechat\src\main\resources' />
     <javaClientGenerator targetPackage="com.mybatis.cli" targetProject="wechat" type="XMLMAPPER" />
     <table schema="PUBLIC" tableName="ANSWERS" domainObjectName="Answer">
         <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
