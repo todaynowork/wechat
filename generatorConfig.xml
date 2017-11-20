@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:hsqldb:hsql://localhost/testdb" driverClass="org.hsqldb.jdbc.JDBCDriver" userId="SA" />
+    <javaModelGenerator targetPackage="com.mybatis" targetProject="wechat" />
+    <sqlMapGenerator targetPackage="xml" targetProject="wechat" />
+    <javaClientGenerator targetPackage="com.mybatis.cli" targetProject="wechat" type="XMLMAPPER" />
+    <table schema="PUBLIC" tableName="ANSWERS" domainObjectName="Answer">
+        <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+        <table schema="PUBLIC" tableName="courses" domainObjectName="Course">
+            <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+        <table schema="PUBLIC" tableName="course_participant" >
+            <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+        <table schema="PUBLIC" tableName="course_schedule">
+            <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+        <table schema="PUBLIC" tableName="favorite_answer">
+            <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+        <table schema="PUBLIC" tableName="questions" domainObjectName="Question">
+            <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+            <table schema="PUBLIC" tableName="users" domainObjectName="User">
+            <!-- <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" /> -->
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+  </context>
+</generatorConfiguration>
