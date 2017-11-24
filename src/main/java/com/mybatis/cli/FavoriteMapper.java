@@ -2,8 +2,9 @@ package com.mybatis.cli;
 
 import com.mybatis.Favorite;
 import com.mybatis.FavoriteExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FavoriteMapper {
 
@@ -72,4 +73,6 @@ public interface FavoriteMapper {
 	 * @mbg.generated  Fri Nov 24 13:12:07 CST 2017
 	 */
 	int updateByPrimaryKey(Favorite record);
+
+	public List<Favorite> selectAll();
 }

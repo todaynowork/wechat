@@ -236,4 +236,9 @@
     set DESCRIPTION = #{description,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PUBLIC.FAVORITES
+  </select>
 </mapper>

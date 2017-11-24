@@ -2,9 +2,9 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
   <context id="context1">
-    <jdbcConnection connectionURL="jdbc:hsqldb:hsql://localhost/testdb" driverClass="org.hsqldb.jdbc.JDBCDriver" userId="SA" />
+    <jdbcConnection connectionURL="jdbc:hsqldb:hsql://todaynowork.group:9001/wechat" driverClass="org.hsqldb.jdbc.JDBCDriver" userId="SA" password="wechat43s" />
     <javaModelGenerator targetPackage="com.mybatis" targetProject="wechat" />
-    <sqlMapGenerator targetPackage="xml" targetProject='\wechat\src\main\resources' />
+    <sqlMapGenerator targetPackage="xml" targetProject='wechat/src/main/resources' />
     <javaClientGenerator targetPackage="com.mybatis.cli" targetProject="wechat" type="XMLMAPPER" />
     <table schema="PUBLIC" tableName="ANSWERS" domainObjectName="Answer">
         <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
@@ -22,7 +22,20 @@
             <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
       <!-- <columnOverride column="???" property="???" /> -->
     </table>
+    
+                <table schema="PUBLIC" tableName="credits" domainObjectName="Credit">
+            <!-- <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" /> -->
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
         <table schema="PUBLIC" tableName="favorite_answer">
+            <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+            <table schema="PUBLIC" tableName="favorites" domainObjectName="Favorite">
+            <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+            <table schema="PUBLIC" tableName="my_favorites" domainObjectName="MyFavorite">
             <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
       <!-- <columnOverride column="???" property="???" /> -->
     </table>
