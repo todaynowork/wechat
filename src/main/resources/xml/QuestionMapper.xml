@@ -305,4 +305,9 @@
     from PUBLIC.QUESTIONS
     where OWNER = #{owner,jdbcType=INTEGER}
 </select>
+    <select id="selectAllQuestions" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from PUBLIC.QUESTIONS
+    </select>
 </mapper>

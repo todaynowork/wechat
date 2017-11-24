@@ -23,8 +23,8 @@ public class QuestionController {
 
     @GetMapping("/question/all")
     public @ResponseBody
-    List<Question> allQuestions(@PathVariable String userId, HttpSession session) {
-        return questionMapper.selectMyQuestions(userId);
+    List<Question> allQuestions() {
+        return questionMapper.selectAllQuestions();
     }
 
     @PostMapping("/question/{userId}")
