@@ -26,14 +26,14 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    public String getCodeUrl(String code){
-        return String.format(Get_Code,APPID,SECRET,code);
-    }
+//    public String getCodeUrl(String code){
+//        return String.format(Get_Code,APPID,SECRET,code);
+//    }
 
     @PostMapping("/login")
     public @ResponseBody
     Map<String, Object> loginPostTest(@RequestBody Login login, HttpSession session) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<String, Object>();
         // 设置session
         String getCodeUrl = String.format(Get_Code,APPID,SECRET,login.getCode());
         String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
@@ -61,10 +61,10 @@ public class UserController {
     @PostMapping("/user")
     public @ResponseBody
     User createUser(@RequestBody User newUser, HttpSession session) {
-//        String open_id =(String) session.getAttribute("WECHAT_OPENID");
-//        User oldUser = userMapper.selectByPrimaryKey(open_id);
-        User oldUser = userMapper.selectByPrimaryKey(newUser.getOpenId());
-//        newUser.setOpenId(open_id);
+        String open_id =(String) session.getAttribute("WECHAT_OPENID");
+        User oldUser = userMapper.selectByPrimaryKey(open_id);
+//        User oldUser = userMapper.selectByPrimaryKey(newUser.getOpenId());
+        newUser.setOpenId(open_id);
         if(oldUser == null){
             userMapper.insert(newUser);
         }else{
