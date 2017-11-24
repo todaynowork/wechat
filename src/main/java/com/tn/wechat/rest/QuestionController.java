@@ -27,6 +27,12 @@ public class QuestionController {
         return questionMapper.selectAllQuestions();
     }
 
+    @GetMapping("/question/{quesId}/detail")
+    public @ResponseBody
+    Question allQuestionsWithAnswer(@PathVariable Integer quesId) {
+        return questionMapper.selectByPrimaryKeyWithAnswer(quesId);
+    }
+
     @PostMapping("/question/{userId}")
     public @ResponseBody
     void createQuestion(@RequestBody Question question, @PathVariable String userId, HttpSession session) {
