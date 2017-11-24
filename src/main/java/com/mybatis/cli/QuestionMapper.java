@@ -75,4 +75,6 @@ public interface QuestionMapper {
 	int updateByPrimaryKey(Question record);
 
 	Question selectByPrimaryKeyWithAnswer(Integer id);
+
+	List<Question> selectMyQuestions(String openId);
 }
