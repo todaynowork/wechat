@@ -62,15 +62,19 @@ public class UserController {
     public @ResponseBody
     User createUser(@RequestBody User newUser, HttpSession session) {
         String open_id =(String) session.getAttribute("WECHAT_OPENID");
-        User oldUser = userMapper.selectByPrimaryKey(open_id);
+        User oldUser = userMapper.selectByOpenId(open_id);
 //        User oldUser = userMapper.selectByPrimaryKey(newUser.getOpenId());
         newUser.setOpenId(open_id);
         if(oldUser == null){
             userMapper.insert(newUser);
-        }else{
+
+        }else {
+            newUser.setId(oldUser.getId());
             userMapper.updateByPrimaryKey(newUser);
+//            oldUser = newUser;
         }
-        return newUser;
+        oldUser = userMapper.selectByOpenId(open_id);
+        return oldUser;
     }
 
 }

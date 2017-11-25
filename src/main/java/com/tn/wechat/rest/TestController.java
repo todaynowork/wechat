@@ -37,23 +37,24 @@ public class TestController {
 
     @RequestMapping(path = "/json")
     Question helloJson(){
+        User user = null;
         try{
-            User user = new User();
+            user = new User();
             user.setOpenId("123456");
             user.setEmail("ddddd");
             user.setNickName("dddddddccc");
-            user.setAvatorUrl("dddddddccc");
+            user.setAvatarUrl("dddddddccc");
 
             usersMapper.insert(user);
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        user = usersMapper.selectByOpenId("123456");
 
         Question ques= new Question();
 
         ques.setDesc("ddddesc");
-        ques.setOwner("123456");
+        ques.setOwner(user.getId());
 
         questionsMapper.insert(ques);
         return questionsMapper.selectByPrimaryKeyWithAnswer( ques.getId());
