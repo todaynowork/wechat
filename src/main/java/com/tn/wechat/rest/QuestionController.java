@@ -2,6 +2,7 @@ package com.tn.wechat.rest;
 
 import com.mybatis.Question;
 import com.mybatis.cli.QuestionMapper;
+import com.tn.wechat.util.IMyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,12 @@ public class QuestionController {
     private QuestionMapper questionMapper;
 
 
+    private IMyUtils utils;
+
+    @Autowired
+    public void setUtils(IMyUtils utils){
+        this.utils = utils;
+    }
 
     @GetMapping("/question/my/{userId}")
     public @ResponseBody
@@ -24,6 +31,7 @@ public class QuestionController {
     @GetMapping("/question/all")
     public @ResponseBody
     List<Question> allQuestions() {
+        System.out.println("test dev tool 111");
         return questionMapper.selectAllQuestions();
     }
 
@@ -36,7 +44,13 @@ public class QuestionController {
     @PostMapping("/question")
     public @ResponseBody
     Question createQuestion(@RequestBody Question question) {
-        this.questionMapper.insert(question);
+        question.setUpdateTime(utils.getCurrentTimeStamp());
+        if(question.getId()==null){
+            this.questionMapper.insert(question);
+        }else {
+            this.questionMapper.updateByPrimaryKey(question);
+        }
+
         return question;
     }
 

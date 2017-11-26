@@ -3,11 +3,9 @@ package com.tn.wechat.rest;
 import com.mybatis.User;
 import com.mybatis.cli.UserMapper;
 import com.tn.wechat.req.Login;
+import com.tn.wechat.util.IMyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -20,6 +18,13 @@ public class UserController {
     private final String SECRET = "f4dd8605759c076e166ac9681236df28";
 
     private UserMapper userMapper;
+
+    private IMyUtils utils;
+
+    @Autowired
+    public void setUtils(IMyUtils utils){
+        this.utils = utils;
+    }
 
     @Autowired
     public void setUserMapper(UserMapper userMapper){
@@ -42,13 +47,6 @@ public class UserController {
             map.put("errmessage", map.get("errmsg"));
             return map;
         }
-
-//        User newUser =  new User();
-//        newUser.setOpenId((String) map.get("openid"));
-//        newUser.setEmail(login.getEmail());
-//        newUser.setNickName(login.getNickName());
-//        newUser.setAvatorUrl(login.getAvatorUrl());
-//        map.put("session_id","123456789");
         String session3ed = session.getId();
         session.setAttribute("WECHAT_OPENID", map.get("openid"));
         session.setAttribute("WECHAT_SESS_ID",map.get("session_key"));
@@ -67,15 +65,38 @@ public class UserController {
 
         if(oldUser == null){
             newUser.setOpenId(open_id);
+            newUser.setUpdateTime(utils.getCurrentTimeStamp());
             userMapper.insert(newUser);
-            oldUser = userMapper.selectByOpenId(open_id);
+            oldUser = newUser;
         }else {
             oldUser.setAvatarUrl(newUser.getAvatarUrl());
             oldUser.setNickName(newUser.getNickName());
+            oldUser.setUpdateTime(utils.getCurrentTimeStamp());
             userMapper.updateByPrimaryKey(oldUser);
 //            oldUser = newUser;
         }
         return oldUser;
+    }
+
+    @PostMapping("/user/update")
+    public @ResponseBody
+    User updateUser(@RequestBody User newUser) {
+        newUser.setUpdateTime(utils.getCurrentTimeStamp());
+        userMapper.updateByPrimaryKey(newUser);
+        return newUser;
+    }
+
+
+    @GetMapping("/user/{userId}")
+    public @ResponseBody
+    User updateUser(@PathVariable Integer userId) {
+        return userMapper.selectByPrimaryKey(userId);
+    }
+
+    @DeleteMapping("/user/{userId}")
+    public @ResponseBody
+    void delUser(@PathVariable Integer userId) {
+        userMapper.deleteByPrimaryKey(userId);
     }
 
 }
