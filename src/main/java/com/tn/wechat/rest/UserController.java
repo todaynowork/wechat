@@ -64,16 +64,17 @@ public class UserController {
         String open_id =(String) session.getAttribute("WECHAT_OPENID");
         User oldUser = userMapper.selectByOpenId(open_id);
 //        User oldUser = userMapper.selectByPrimaryKey(newUser.getOpenId());
-        newUser.setOpenId(open_id);
-        if(oldUser == null){
-            userMapper.insert(newUser);
 
+        if(oldUser == null){
+            newUser.setOpenId(open_id);
+            userMapper.insert(newUser);
+            oldUser = userMapper.selectByOpenId(open_id);
         }else {
-            newUser.setId(oldUser.getId());
-            userMapper.updateByPrimaryKey(newUser);
+            oldUser.setAvatarUrl(newUser.getAvatarUrl());
+            oldUser.setNickName(newUser.getNickName());
+            userMapper.updateByPrimaryKey(oldUser);
 //            oldUser = newUser;
         }
-        oldUser = userMapper.selectByOpenId(open_id);
         return oldUser;
     }
 

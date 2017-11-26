@@ -2,7 +2,9 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
   <context id="context1">
-    <jdbcConnection connectionURL="jdbc:hsqldb:hsql://todaynowork.group:9001/wechat" driverClass="org.hsqldb.jdbc.JDBCDriver" userId="SA" password="wechat43s" />
+    <jdbcConnection connectionURL="jdbc:hsqldb:hsql://localhost:9001/testdb" driverClass="org.hsqldb.jdbc.JDBCDriver" userId="SA" password="" />
+<!--     <jdbcConnection connectionURL="jdbc:hsqldb:hsql://todaynowork.group:9001/wechat" driverClass="org.hsqldb.jdbc.JDBCDriver" userId="SA" password="wechat43s" />
+ -->
     <javaModelGenerator targetPackage="com.mybatis" targetProject="wechat" />
     <sqlMapGenerator targetPackage="xml" targetProject='wechat/src/main/resources' />
     <javaClientGenerator targetPackage="com.mybatis.cli" targetProject="wechat" type="XMLMAPPER" />
@@ -44,7 +46,7 @@
       <!-- <columnOverride column="???" property="???" /> -->
     </table>
             <table schema="PUBLIC" tableName="users" domainObjectName="User">
-            <!-- <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" /> -->
+             <generatedKey column="ID" sqlStatement="HSQLDB" identity="true" />
       <!-- <columnOverride column="???" property="???" /> -->
     </table>
   </context>

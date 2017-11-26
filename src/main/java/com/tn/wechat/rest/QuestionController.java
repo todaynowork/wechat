@@ -17,7 +17,7 @@ public class QuestionController {
 
     @GetMapping("/question/my/{userId}")
     public @ResponseBody
-    List<Question> myQuestions(@PathVariable String userId, HttpSession session) {
+    List<Question> myQuestions(@PathVariable Integer userId, HttpSession session) {
         return questionMapper.selectMyQuestions(userId);
     }
 
@@ -33,10 +33,11 @@ public class QuestionController {
         return questionMapper.selectByPrimaryKeyWithAnswer(quesId);
     }
 
-    @PostMapping("/question/{userId}")
+    @PostMapping("/question")
     public @ResponseBody
-    void createQuestion(@RequestBody Question question, @PathVariable String userId, HttpSession session) {
+    Question createQuestion(@RequestBody Question question) {
         this.questionMapper.insert(question);
+        return question;
     }
 
     @DeleteMapping("/question/{quesId}")

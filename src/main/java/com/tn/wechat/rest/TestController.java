@@ -38,14 +38,18 @@ public class TestController {
     @RequestMapping(path = "/json")
     Question helloJson(){
         User user = null;
+        user = usersMapper.selectByOpenId("123456");
         try{
-            user = new User();
-            user.setOpenId("123456");
-            user.setEmail("ddddd");
-            user.setNickName("dddddddccc");
-            user.setAvatarUrl("dddddddccc");
+            if(user==null){
+                user = new User();
+                user.setOpenId("123456");
+                user.setEmail("ddddd");
+                user.setNickName("dddddddccc");
+                user.setAvatarUrl("dddddddccc");
 
-            usersMapper.insert(user);
+                usersMapper.insert(user);
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }

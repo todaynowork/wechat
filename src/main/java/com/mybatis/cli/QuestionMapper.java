@@ -76,7 +76,7 @@ public interface QuestionMapper {
 
 	Question selectByPrimaryKeyWithAnswer(Integer id);
 
-	List<Question> selectMyQuestions(String openId);
+	List<Question> selectMyQuestions(Integer userId);
 
     List<Question> selectAllQuestions();
 }
