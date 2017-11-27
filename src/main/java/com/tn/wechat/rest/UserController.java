@@ -4,6 +4,7 @@ import com.mybatis.User;
 import com.mybatis.cli.UserMapper;
 import com.tn.wechat.req.Login;
 import com.tn.wechat.util.IMyUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,8 @@ public class UserController {
     private final String SECRET = "f4dd8605759c076e166ac9681236df28";
 
     private UserMapper userMapper;
+
+    private String access_token = null;
 
     private IMyUtils utils;
 
@@ -97,6 +100,39 @@ public class UserController {
     public @ResponseBody
     void delUser(@PathVariable Integer userId) {
         userMapper.deleteByPrimaryKey(userId);
+    }
+
+    @GetMapping("/access_token")
+    public String access_token(){
+        String accessTokenJson = getAccessTokenString();
+        extractAccessToken(accessTokenJson);
+        return accessTokenJson;
+    }
+
+    @GetMapping("/2_d_code")
+    public String create2dCode(){
+        if(access_token == null || access_token.isEmpty()){
+            String accessTokenJson = getAccessTokenString();
+            extractAccessToken(accessTokenJson);
+        }
+        String apiUrl = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s";
+
+
+        apiUrl = String.format(apiUrl,access_token);
+
+        return apiUrl;
+    }
+
+    private void extractAccessToken(String accessTokenJson) {
+
+        JSONObject json = new JSONObject(accessTokenJson);
+        access_token = json.getString("access_token");
+    }
+
+
+    private String getAccessTokenString() {
+        String tokenApiUrl = String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s",APPID,SECRET);
+        return HttpsUtil.httpsRequestToString(tokenApiUrl,"GET",null);
     }
 
 }
