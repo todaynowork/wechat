@@ -2,6 +2,8 @@ package com.mybatis.cli;
 
 import com.mybatis.Course;
 import com.mybatis.CourseExample;
+import com.mybatis.Question;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -73,4 +75,12 @@ public interface CourseMapper {
 	 * @mbg.generated  Sun Nov 26 15:15:32 CST 2017
 	 */
 	int updateByPrimaryKey(Course record);
+	
+
+	//List<Question> selectMyQuestions(Integer userId);
+
+    List<Course> selectAllCourses();
+    
+    Course selectByCourseId(Integer id);
+    
 }
