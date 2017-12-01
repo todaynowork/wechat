@@ -1,6 +1,8 @@
 
 def env = System.getProperty("env") ?: "dev"
 
+println " working in [$env] environment!"
+
 buildscript {
 	ext {
 		springBootVersion = '1.5.4.RELEASE'
@@ -41,6 +43,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web') {
 		exclude module: 'spring-boot-starter-logging'
 	}
+
+	compile("org.springframework.boot:spring-boot-starter-security"){
+        exclude module: 'spring-boot-starter-logging'
+    }
     compile('org.springframework.boot:spring-boot-starter-log4j2')
 	providedRuntime ('org.springframework.boot:spring-boot-starter-tomcat')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
