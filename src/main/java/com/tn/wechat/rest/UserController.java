@@ -5,16 +5,18 @@ import com.mybatis.cli.UserMapper;
 import com.tn.wechat.req.Login;
 import com.tn.wechat.util.IMyUtils;
 import com.tn.wechat.util.WechatUtils;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
+
+//import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 public class UserController {
@@ -61,6 +63,13 @@ public class UserController {
         map.put("sessionid",session3ed);
         map.put("openId",map.get("openid"));
         return map;
+    }
+
+    @GetMapping("/403")
+    public @ResponseBody
+    String loginFail(HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "{ message:\" authenticated failed\"}");
+        return "403";
     }
 
     @PostMapping("/logintest")

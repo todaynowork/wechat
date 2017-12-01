@@ -31,8 +31,9 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
 
         // 排除配置
 //        System.out.println("exclude");
-        addInterceptor.excludePathPatterns("/errorlogin");
+        addInterceptor.excludePathPatterns("/403");
         addInterceptor.excludePathPatterns("/login");
+        addInterceptor.excludePathPatterns("/error");
 
         // 拦截配置
         addInterceptor.addPathPatterns("/**");
@@ -44,6 +45,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
                 throws Exception {
             HttpSession session = request.getSession();
+            System.out.println("open id:" +session.getAttribute("WECHAT_OPENID"));
 //            Object openId = session.getAttribute(session.getAttribute(session.getId()).toString());
             if (session.getAttribute("WECHAT_OPENID") != null ) {
                 //add session check
@@ -51,8 +53,8 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
             }
             // 跳转登录
             System.out.println("session id :" + session.getId());
-            System.out.println("sessin_id:" + session.getAttribute(session.getId()));
-            String url = "/errorlogin";
+
+            String url = "/403";
             response.sendRedirect(url);
             return false;
         }
