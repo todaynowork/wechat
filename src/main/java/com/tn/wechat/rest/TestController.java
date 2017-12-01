@@ -1,9 +1,11 @@
 package com.tn.wechat.rest;
 
 import com.mybatis.Answer;
+import com.mybatis.Course;
 import com.mybatis.Question;
 import com.mybatis.User;
 import com.mybatis.cli.AnswerMapper;
+import com.mybatis.cli.CourseMapper;
 import com.mybatis.cli.QuestionMapper;
 import com.mybatis.cli.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class TestController {
     }
 
     private QuestionMapper questionsMapper;
+    @Autowired
+    private CourseMapper courseMapper;
 
     @Autowired
     public void setUsersMapper(UserMapper usersMapper){
@@ -75,5 +79,24 @@ public class TestController {
         answerMapper.insert(answer);
 
         return questionsMapper.selectByPrimaryKeyWithAnswer( ques.getId());
+    }
+    
+    
+    @RequestMapping(path = "/add")
+   	void addCourseJson(){
+    	 User user = null;
+     user = usersMapper.selectByOpenId("123456");
+         
+        Course course = new Course();
+        course.setTitle("C++ Foundation");
+        course.setDesc("I like C++ Program very much.");
+        course.setMemo("This is C++ foundation course, welcome to join this training and pls attend it on time.");
+        course.setCreatorId(user.getId());
+        course.setUpdateTime(new Date());
+        course.setId(2);
+
+
+        courseMapper.insert(course);
+
     }
 }
