@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
         // 排除配置
 //        System.out.println("exclude");
         addInterceptor.excludePathPatterns("/errorlogin");
-        addInterceptor.excludePathPatterns("/loginPost");
+        addInterceptor.excludePathPatterns("/login");
 
         // 拦截配置
         addInterceptor.addPathPatterns("/**");
@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
                 throws Exception {
             HttpSession session = request.getSession();
 //            Object openId = session.getAttribute(session.getAttribute(session.getId()).toString());
-            if (session.getAttribute(session.getId()) != null ) {
+            if (session.getAttribute("WECHAT_OPENID") != null ) {
                 //add session check
                 return true;
             }
