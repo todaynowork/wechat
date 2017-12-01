@@ -7,7 +7,7 @@ import com.tn.wechat.util.IMyUtils;
 import com.tn.wechat.util.WechatUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,9 +78,9 @@ public class UserController {
     public @ResponseBody
     User createUser(@RequestBody User newUser, HttpSession session) {
 
-        Map<String,String> hashMap = (Map<String,String>) SecurityContextHolder.getContext().getAuthentication().getDetails();
-
-        System.out.println(hashMap.get("WECHAT_OPENID"));
+//        Map<String,String> hashMap = (Map<String,String>) SecurityContextHolder.getContext().getAuthentication().getDetails();
+//
+//        System.out.println(hashMap.get("WECHAT_OPENID"));
         String open_id =(String) session.getAttribute("WECHAT_OPENID");
         User oldUser = userMapper.selectByOpenId(open_id);
 //        User oldUser = userMapper.selectByPrimaryKey(newUser.getOpenId());
