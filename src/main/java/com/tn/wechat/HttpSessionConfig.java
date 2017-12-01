@@ -9,6 +9,7 @@ import org.springframework.session.web.http.HttpSessionStrategy;
 
 import java.io.IOException;
 
+//@Profile("production")
 @Configuration
 @EnableRedisHttpSession
 public class HttpSessionConfig {
@@ -19,8 +20,8 @@ public class HttpSessionConfig {
 //        redisServer = new RedisServer(Protocol.DEFAULT_PORT);
 //        redisServer.start();
         JedisConnectionFactory factory = new JedisConnectionFactory();
-        factory.setHostName("redis-11366.c6.eu-west-1-1.ec2.cloud.redislabs.com");
-        factory.setPort(11366);
+        factory.setHostName("redis-13409.c6.eu-west-1-1.ec2.cloud.redislabs.com");
+        factory.setPort(13409);
         return factory;
     }
 
