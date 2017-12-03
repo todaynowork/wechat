@@ -1,5 +1,6 @@
 package com.mybatis.cli;
 
+import com.mybatis.Course;
 import com.mybatis.CourseSchedule;
 import com.mybatis.CourseScheduleExample;
 import java.util.List;
@@ -73,4 +74,8 @@ public interface CourseScheduleMapper {
 	 * @mbg.generated  Tue Nov 28 12:49:57 CST 2017
 	 */
 	int updateByPrimaryKey(CourseSchedule record);
+	
+	  List<CourseSchedule> selectAllScheduledCourses();
+	   
+	  CourseSchedule selectByCourseScheduleId(Integer id);
 }
