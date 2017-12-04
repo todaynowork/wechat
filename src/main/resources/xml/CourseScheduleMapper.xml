@@ -283,4 +283,13 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!-- 
+  selectAllScheduledCourses
+   -->
+       <select id="selectAllScheduledCourses" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from PUBLIC.COURSE_SCHEDULE
+    </select>
 </mapper>
