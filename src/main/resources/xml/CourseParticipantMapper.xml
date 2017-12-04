@@ -285,4 +285,11 @@
     where COURSE_SCHEDULE_ID = #{courseScheduleId,jdbcType=INTEGER}
       and PARTICIPANT_ID = #{participantId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAllCourseParticipant" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PUBLIC.COURSE_PARTICIPANT
+  </select>
+
 </mapper>

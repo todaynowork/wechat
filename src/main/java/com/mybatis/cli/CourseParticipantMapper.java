@@ -74,4 +74,6 @@ public interface CourseParticipantMapper {
 	 * @mbg.generated  Tue Nov 28 12:49:57 CST 2017
 	 */
 	int updateByPrimaryKey(CourseParticipant record);
+
+	List<CourseParticipant> selectAllCourseParticipant();
 }
