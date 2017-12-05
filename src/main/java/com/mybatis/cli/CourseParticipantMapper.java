@@ -3,6 +3,8 @@ package com.mybatis.cli;
 import com.mybatis.CourseParticipant;
 import com.mybatis.CourseParticipantExample;
 import com.mybatis.CourseParticipantKey;
+import com.mybatis.CourseSchedule;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -74,4 +76,8 @@ public interface CourseParticipantMapper {
 	 * @mbg.generated  Tue Nov 28 12:49:57 CST 2017
 	 */
 	int updateByPrimaryKey(CourseParticipant record);
+	
+	  List<CourseParticipant> selectAllParticipatedCourses();
+	   
+	  CourseParticipant selectByCourseParticipateId(Integer id);
 }
