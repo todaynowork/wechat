@@ -2,19 +2,28 @@ package com.tn.wechat.util;
 
 import com.tn.wechat.rest.HttpsUtil;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 @Component
 public class WechatUtils {
 
     public static final String TWO_DIM_CODE_CREATE = "https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=%s";
 
-    private final static String OPEN_ID_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
+    @Value("{wx.url.openid}")
+    private static String OPEN_ID_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
     public static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
-    private final String  APPID = "wxab931d22fde028bc";
-    private final String SECRET = "f4dd8605759c076e166ac9681236df28";
+
+    @Value( "${wx.appId}" )
+    private String  APPID = null;
+    @Value("${wx.secret}")
+    private String SECRET = null;
+    @Value("${wx.signature.token}")
+    private String  tooken = "jredu100"; //开发者自行定义Tooken
 
     /**
      * cache access toke for reuse
@@ -71,5 +80,89 @@ public class WechatUtils {
 
         JSONObject json = new JSONObject(accessTokenJson);
         access_token = json.getString("access_token");
+    }
+
+
+
+    public boolean checkSignature(String signature,String timestamp,String nonce){
+
+        //1.定义数组存放tooken，timestamp,nonce
+
+        String[] arr = {tooken,timestamp,nonce};
+
+        //2.对数组进行排序
+
+        Arrays.sort(arr);
+
+        //3.生成字符串
+
+        StringBuffer sb = new StringBuffer();
+
+        for(String s : arr){
+
+            sb.append(s);
+
+        }
+
+        //4.sha1加密,网上均有现成代码
+
+        String temp = getSha1(sb.toString());
+
+        //5.将加密后的字符串，与微信传来的加密签名比较，返回结果
+
+        return temp.equals(signature);
+
+    }
+
+
+
+    public String getSha1(String str){
+
+        if(str==null||str.length()==0){
+
+            return null;
+
+        }
+
+        char hexDigits[] = {'0','1','2','3','4','5','6','7','8','9',
+
+                'a','b','c','d','e','f'};
+
+        try {
+
+            MessageDigest mdTemp = MessageDigest.getInstance("SHA1");
+
+            mdTemp.update(str.getBytes("UTF-8"));
+
+
+
+            byte[] md = mdTemp.digest();
+
+            int j = md.length;
+
+            char buf[] = new char[j*2];
+
+            int k = 0;
+
+            for (int i = 0; i < j; i++) {
+
+                byte byte0 = md[i];
+
+                buf[k++] = hexDigits[byte0 >>> 4 & 0xf];
+
+                buf[k++] = hexDigits[byte0 & 0xf];
+
+            }
+
+            return new String(buf);
+
+        } catch (Exception e) {
+
+            // TODO: handle exception
+
+            return null;
+
+        }
+
     }
 }
