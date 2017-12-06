@@ -67,7 +67,7 @@ public class CourseParticipantContrlloer {
 	public @ResponseBody
 	Map<String, Object> loginPostTest(@RequestBody String inputParmForCheckIn, HttpSession session){
 		//input format {"courseScheduleId":5,"mail":"1234@1234.com"}
-        session.setAttribute("WECHAT_OPENID","123456");
+//        session.setAttribute("WECHAT_OPENID","123456");
 		JSONObject inputParmObj= new JSONObject(inputParmForCheckIn);
 		String open_id = (String) session.getAttribute("WECHAT_OPENID");
 		User user = userMapper.selectByOpenId(open_id);
