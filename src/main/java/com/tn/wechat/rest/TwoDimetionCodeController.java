@@ -75,6 +75,25 @@ public class TwoDimetionCodeController {
         return twoDimentionCode;
     }
 
+    @GetMapping("")
+    public TwoDimentionCode retrieve2dCode(@RequestBody String body){
+        TwoDimentionCodeExample twoDimentionCodeExample = new TwoDimentionCodeExample();
+
+        JSONObject bodyObj= new JSONObject(body);
+        String scene = bodyObj.getString("scene");
+        Integer objectId = bodyObj.getInt("objectId");
+        TwoDimentionCode twoDimentionCode = null;
+        twoDimentionCodeExample.createCriteria().andSceneEqualTo(scene).andObjectIdEqualTo(objectId);
+
+        List<TwoDimentionCode> lst= twoDimentionCodeMapper.selectByExample(twoDimentionCodeExample);
+
+
+        if(lst!=null && lst.size() >0){
+            twoDimentionCode = lst.get(0);
+        }
+        return twoDimentionCode;
+    }
+
     private TwoDimentionCode getTwoDimentionCode(JSONObject bodyObj, Integer id,String fileName) {
 //        String access_token = userController.getAccess_token();
         String scene = bodyObj.getString("scene");
