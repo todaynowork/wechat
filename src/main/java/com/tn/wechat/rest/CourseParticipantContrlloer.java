@@ -1,5 +1,6 @@
 package com.tn.wechat.rest;
 
+import com.mybatis.CourseParticipantKey;
 import com.mybatis.CourseSchedule;
 import com.mybatis.CourseParticipant;
 import com.mybatis.User;
@@ -71,10 +72,9 @@ public class CourseParticipantContrlloer {
 		JSONObject inputParmObj= new JSONObject(inputParmForCheckIn);
 //		String open_id = (String) session.getAttribute("WECHAT_OPENID");
 		User user = userMapper.selectByPrimaryKey((Integer) inputParmObj.get("userId"));
-		CourseParticipant courseParticipant = new CourseParticipant();
 		Map<String, Object> map = new HashMap<>();
 		String email = (String) inputParmObj.get("mail");
-		if(email == null){
+		if(email == null || email.equals("")){
 			if (user.getEmail() == null){
 				map.put("message","Please add mail ID");
 				return map;
@@ -86,6 +86,15 @@ public class CourseParticipantContrlloer {
 			user.setUpdateTime(new Date());
 			userMapper.updateByPrimaryKey(user);
 		}
+//		CourseParticipant courseParticipant = null;
+		CourseParticipantKey courseParticipantKey = new CourseParticipantKey();
+		courseParticipantKey.setParticipantId(user.getId());
+		courseParticipantKey.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
+		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
+		if (courseParticipant == null){
+			map.put("message","Course not register");
+			return map;
+		}
 		courseParticipant.setCheckIn(1);
 		courseParticipant.setParticipantId(user.getId());
 		courseParticipant.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
@@ -94,6 +103,28 @@ public class CourseParticipantContrlloer {
 		map.put("message","checkin successful");
 		return map;
 	}
+
+	@GetMapping("/getCheckedin")
+	public @ResponseBody
+	List<CourseParticipant> participantCoursesByCheckin() {
+		return courseParticipantMapper.selectParticipatedCoursesByCheckin(1);
+	}
+
+//	@GetMapping("/getTeacher")
+//	public @ResponseBody
+//	List<CourseParticipant> participantCoursesByType() {
+//		return courseParticipantMapper.selectParticipatedCoursesByType('T');
+//	}
+
+//	@GetMapping("/getTeacherBySheduleId/{scheduleId}")
+//	public @ResponseBody
+//	List<CourseParticipant> getTeacherBySheduleId(@PathVariable Integer scheduleId) {
+//		System.out.println(scheduleId);
+//		char type = 'T';
+//		return courseParticipantMapper.selectParticipatedCoursesByTypeAndId(type,scheduleId);
+//	}
+
+
 
 
 //    @PostMapping("/checkin")
