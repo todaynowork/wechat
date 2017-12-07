@@ -66,11 +66,11 @@ public class CourseParticipantContrlloer {
 	@PostMapping("/checkin")
 	public @ResponseBody
 	Map<String, Object> loginPostTest(@RequestBody String inputParmForCheckIn, HttpSession session){
-		//input format {"courseScheduleId":5,"mail":"1234@1234.com"}
+		//input format {"userId":1,"courseScheduleId":5,"mail":"1234@1234.com"}
 //        session.setAttribute("WECHAT_OPENID","123456");
 		JSONObject inputParmObj= new JSONObject(inputParmForCheckIn);
-		String open_id = (String) session.getAttribute("WECHAT_OPENID");
-		User user = userMapper.selectByOpenId(open_id);
+//		String open_id = (String) session.getAttribute("WECHAT_OPENID");
+		User user = userMapper.selectByPrimaryKey((Integer) inputParmObj.get("userId"));
 		CourseParticipant courseParticipant = new CourseParticipant();
 		Map<String, Object> map = new HashMap<>();
 		String email = (String) inputParmObj.get("mail");
@@ -81,15 +81,17 @@ public class CourseParticipantContrlloer {
 			}
 			email = user.getEmail();
 		}
-		user.setEmail(email);
-		userMapper.updateByPrimaryKey(user);
-
+		if (!email.equals(user.getEmail())){
+			user.setEmail(email);
+			user.setUpdateTime(new Date());
+			userMapper.updateByPrimaryKey(user);
+		}
 		courseParticipant.setCheckIn(1);
 		courseParticipant.setParticipantId(user.getId());
 		courseParticipant.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
 		courseParticipant.setUpdateTime(new Date());
 		courseParticipantMapper.updateByPrimaryKey(courseParticipant);
-		map.put("message","successful");
+		map.put("message","checkin successful");
 		return map;
 	}
 
