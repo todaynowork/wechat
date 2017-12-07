@@ -79,7 +79,7 @@ public class TwoDimetionCodeController {
     public TwoDimentionCode retrieve2dCode(@RequestParam("scene") String scene, @RequestParam("objectId") Integer objectId){
         TwoDimentionCodeExample twoDimentionCodeExample = new TwoDimentionCodeExample();
 
-        JSONObject bodyObj= new JSONObject(body);
+//        JSONObject bodyObj= new JSONObject(body);
 //        String scene = bodyObj.getString("scene");
 //        Integer objectId = bodyObj.getInt("objectId");
         TwoDimentionCode twoDimentionCode = null;
