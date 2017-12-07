@@ -76,12 +76,12 @@ public class TwoDimetionCodeController {
     }
 
     @GetMapping("")
-    public TwoDimentionCode retrieve2dCode(@RequestBody String body){
+    public TwoDimentionCode retrieve2dCode(@RequestParam("scene") String scene, @RequestParam("objectId") Integer objectId){
         TwoDimentionCodeExample twoDimentionCodeExample = new TwoDimentionCodeExample();
 
         JSONObject bodyObj= new JSONObject(body);
-        String scene = bodyObj.getString("scene");
-        Integer objectId = bodyObj.getInt("objectId");
+//        String scene = bodyObj.getString("scene");
+//        Integer objectId = bodyObj.getInt("objectId");
         TwoDimentionCode twoDimentionCode = null;
         twoDimentionCodeExample.createCriteria().andSceneEqualTo(scene).andObjectIdEqualTo(objectId);
 
