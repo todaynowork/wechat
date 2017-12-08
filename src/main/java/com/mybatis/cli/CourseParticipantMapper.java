@@ -6,6 +6,8 @@ import com.mybatis.CourseParticipantKey;
 import com.mybatis.CourseSchedule;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface CourseParticipantMapper {
@@ -77,7 +79,11 @@ public interface CourseParticipantMapper {
 	 */
 	int updateByPrimaryKey(CourseParticipant record);
 	
-	  List<CourseParticipant> selectAllParticipatedCourses();
+	List<CourseParticipant> selectAllParticipatedCourses();
 	   
-	  CourseParticipant selectByCourseParticipateId(Integer id);
+	CourseParticipant selectByCourseParticipateId(Integer id);
+
+	List<CourseParticipant> selectParticipatedCoursesByCheckin(Integer checkIn);
+
+//	List<CourseParticipant> selectParticipatedCoursesByTypeAndId(Map<String, Object>);
 }
