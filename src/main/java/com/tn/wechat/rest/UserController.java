@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //import org.springframework.security.core.context.SecurityContextHolder;
@@ -135,6 +136,11 @@ public class UserController {
         String accessTokenJson = wechatUtils.getAccessTokenString();
         wechatUtils.extractAccessToken(accessTokenJson);
         return accessTokenJson;
+    }
+
+    @GetMapping("/user/all")
+    public List<User> allUsers(){
+        return userMapper.selectByExample(null);
     }
 
 }
