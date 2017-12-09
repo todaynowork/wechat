@@ -1,14 +1,18 @@
 package com.tn.wechat.rest;
 
+import com.mybatis.CourseParticipantExample;
 import com.mybatis.CourseParticipantKey;
 import com.mybatis.CourseParticipant;
 import com.mybatis.User;
+import com.mybatis.UserExample;
 import com.mybatis.cli.CourseParticipantMapper;
 import com.mybatis.cli.UserMapper;
 import com.tn.wechat.util.IMyUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +77,7 @@ public class CourseParticipantContrlloer {
 		Map<String, Object> map = new HashMap<>();
 		String email = (String) inputParmObj.get("mail");
 		if(email == null || email.equals("")){
-			if (user.getEmail() == null){
+			if (user.getEmail() == null || user.getEmail().equals("")){
 				map.put("message","Please add mail ID");
 				return map;
 			}
@@ -126,6 +130,25 @@ public class CourseParticipantContrlloer {
 		key.setCourseScheduleId(courseId);
 		key.setParticipantId(userId);
 	    return courseParticipantMapper.selectByPrimaryKey(key);
+	}
+
+	@GetMapping("/getCheckedinByScheduleId/{coursScheduleId}")
+	public @ResponseBody
+	List<User> getCheckedinBySchedulId(@PathVariable Integer coursScheduleId) {
+		CourseParticipantExample courseParticipantExample = new CourseParticipantExample();
+		courseParticipantExample.createCriteria().andCourseScheduleIdEqualTo(coursScheduleId).andCheckInEqualTo(1);
+		UserExample userExample = new UserExample();
+		List<Integer> userIdList = new ArrayList<>();
+		List<CourseParticipant> list = courseParticipantMapper.selectByExample(courseParticipantExample);
+		if(list.isEmpty()){
+			return null;
+		}
+		Iterator<CourseParticipant> it = list.iterator();
+		while (it.hasNext()){
+			userIdList.add(it.next().getParticipantId());
+		}
+		userExample.createCriteria().andIdIn(userIdList);
+		return  userMapper.selectByExample(userExample);
 	}
 
 //	@GetMapping("/getTeacher")
