@@ -1,11 +1,9 @@
 package com.tn.wechat.rest;
 
 import com.mybatis.CourseParticipantKey;
-import com.mybatis.CourseSchedule;
 import com.mybatis.CourseParticipant;
 import com.mybatis.User;
 import com.mybatis.cli.CourseParticipantMapper;
-import com.mybatis.cli.CourseScheduleMapper;
 import com.mybatis.cli.UserMapper;
 import com.tn.wechat.util.IMyUtils;
 
@@ -90,9 +88,19 @@ public class CourseParticipantContrlloer {
 		CourseParticipantKey courseParticipantKey = new CourseParticipantKey();
 		courseParticipantKey.setParticipantId(user.getId());
 		courseParticipantKey.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
+//		CourseParticipant courseParticipant = new CourseParticipant();
 		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
 		if (courseParticipant == null){
-			map.put("message","Course not register");
+//			map.put("message","Course not register");
+//			return map;
+			CourseParticipant enrollCourseParticipant = new CourseParticipant();
+			enrollCourseParticipant.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
+			enrollCourseParticipant.setParticipantId(user.getId());
+			enrollCourseParticipant.setCheckIn(1);
+			enrollCourseParticipant.setParticipantType("S");
+			enrollCourseParticipant.setUpdateTime(new Date());
+			courseParticipantMapper.insert(enrollCourseParticipant);
+			map.put("message","Enroll and checked in");
 			return map;
 		}
 		courseParticipant.setCheckIn(1);
