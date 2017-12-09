@@ -68,11 +68,9 @@ public class CourseParticipantContrlloer {
 
 	@PostMapping("/checkin")
 	public @ResponseBody
-	Map<String, Object> loginPostTest(@RequestBody String inputParmForCheckIn, HttpSession session){
+	Map<String, Object> checkIn(@RequestBody String inputParmForCheckIn){
 		//input format {"userId":1,"courseScheduleId":5,"mail":"1234@1234.com"}
-//        session.setAttribute("WECHAT_OPENID","123456");
 		JSONObject inputParmObj= new JSONObject(inputParmForCheckIn);
-//		String open_id = (String) session.getAttribute("WECHAT_OPENID");
 		User user = userMapper.selectByPrimaryKey((Integer) inputParmObj.get("userId"));
 		Map<String, Object> map = new HashMap<>();
 		String email = (String) inputParmObj.get("mail");
@@ -108,8 +106,8 @@ public class CourseParticipantContrlloer {
 			return map;
 		}
 		courseParticipant.setCheckIn(1);
-		courseParticipant.setParticipantId(user.getId());
-		courseParticipant.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
+//		courseParticipant.setParticipantId(user.getId());
+//		courseParticipant.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
 		courseParticipant.setUpdateTime(new Date());
 		courseParticipantMapper.updateByPrimaryKey(courseParticipant);
 		map.put("message","checkin successful");
@@ -149,6 +147,27 @@ public class CourseParticipantContrlloer {
 		}
 		userExample.createCriteria().andIdIn(userIdList);
 		return  userMapper.selectByExample(userExample);
+	}
+
+	@PostMapping("/checkout")
+	public @ResponseBody
+	Map<String, Object> checkOut(@RequestBody String inputParmForCheckout){
+		//input format {"userId":1,"courseScheduleId":5}
+		JSONObject inputParmObj= new JSONObject(inputParmForCheckout);
+		Map<String, Object> map = new HashMap<>();
+		CourseParticipantKey courseParticipantKey = new CourseParticipantKey();
+		courseParticipantKey.setParticipantId((Integer) inputParmObj.get("userId"));
+		courseParticipantKey.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
+		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
+		if (courseParticipant == null){
+			map.put("message","Not checked in");
+			return map;
+		}
+		courseParticipant.setCheckIn(0);
+		courseParticipant.setUpdateTime(new Date());
+		courseParticipantMapper.updateByPrimaryKey(courseParticipant);
+		map.put("message","checkout successful");
+		return map;
 	}
 
 //	@GetMapping("/getTeacher")
