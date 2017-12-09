@@ -151,13 +151,9 @@ public class CourseParticipantContrlloer {
 
 	@PostMapping("/checkout")
 	public @ResponseBody
-	Map<String, Object> checkOut(@RequestBody String inputParmForCheckout){
-		//input format {"userId":1,"courseScheduleId":5}
-		JSONObject inputParmObj= new JSONObject(inputParmForCheckout);
+	Map<String, Object> checkOut(@RequestBody CourseParticipantKey courseParticipantKey){
+		//input format {"participantId":1,"courseScheduleId":5}
 		Map<String, Object> map = new HashMap<>();
-		CourseParticipantKey courseParticipantKey = new CourseParticipantKey();
-		courseParticipantKey.setParticipantId((Integer) inputParmObj.get("userId"));
-		courseParticipantKey.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
 		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
 		if (courseParticipant == null){
 			map.put("message","Not checked in");
