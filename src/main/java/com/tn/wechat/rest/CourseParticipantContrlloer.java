@@ -118,6 +118,16 @@ public class CourseParticipantContrlloer {
 		return courseParticipantMapper.selectParticipatedCoursesByCheckin(1);
 	}
 
+
+	@GetMapping("/is_checkin")
+	public @ResponseBody
+	CourseParticipant isCheckIn(@RequestParam("userId") Integer userId,@RequestParam("courseId") Integer courseId) {
+		CourseParticipantKey key = new CourseParticipantKey();
+		key.setCourseScheduleId(courseId);
+		key.setParticipantId(userId);
+	    return courseParticipantMapper.selectByPrimaryKey(key);
+	}
+
 //	@GetMapping("/getTeacher")
 //	public @ResponseBody
 //	List<CourseParticipant> participantCoursesByType() {
