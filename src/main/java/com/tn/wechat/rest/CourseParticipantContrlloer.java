@@ -166,6 +166,25 @@ public class CourseParticipantContrlloer {
 		return map;
 	}
 
+	@GetMapping("/getTeacherByScheduleId/{coursScheduleId}")
+	public @ResponseBody
+	List<User> getTeacherBySchedulId(@PathVariable Integer coursScheduleId) {
+		CourseParticipantExample courseParticipantExample = new CourseParticipantExample();
+		courseParticipantExample.createCriteria().andCourseScheduleIdEqualTo(coursScheduleId).andParticipantTypeEqualTo("T");
+		UserExample userExample = new UserExample();
+		List<Integer> userIdList = new ArrayList<>();
+		List<CourseParticipant> list = courseParticipantMapper.selectByExample(courseParticipantExample);
+		if(list.isEmpty()){
+			return null;
+		}
+		Iterator<CourseParticipant> it = list.iterator();
+		while (it.hasNext()){
+			userIdList.add(it.next().getParticipantId());
+		}
+		userExample.createCriteria().andIdIn(userIdList);
+		return  userMapper.selectByExample(userExample);
+	}
+
 //	@GetMapping("/getTeacher")
 //	public @ResponseBody
 //	List<CourseParticipant> participantCoursesByType() {
