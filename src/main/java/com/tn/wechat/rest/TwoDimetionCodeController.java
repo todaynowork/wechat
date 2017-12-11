@@ -6,6 +6,8 @@ import com.mybatis.cli.TwoDimentionCodeMapper;
 import com.tn.wechat.util.IMyUtils;
 import com.tn.wechat.util.WechatUtils;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,7 @@ public class TwoDimetionCodeController {
         this.twoDimentionCodeMapper = twoDimentionCodeMapper;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(TwoDimetionCodeController.class);
 
     //二维码存放目录
     private String twoDCodeLocation = "/tmp/";
@@ -101,11 +104,13 @@ public class TwoDimetionCodeController {
         TwoDimentionCode twoDimentionCode = null;
 //        String apiUrl = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s";
         byte[] jpg = wechatUtils.get2DCode(bodyObj);
-
+        logger.debug(String.format("file retrieve from backend, size is %d",jpg.length));
 //        String fileName = utils.generateFileName(null);
         File filePath = new File(twoDCodeLocation + fileName);
         try(OutputStream out = new BufferedOutputStream(new FileOutputStream(filePath))) {
             out.write(jpg);
+            out.flush();
+            out.close();
             twoDimentionCode = new TwoDimentionCode();
             if(id!=null)
                 twoDimentionCode.setId(id);
@@ -118,9 +123,11 @@ public class TwoDimetionCodeController {
             else
                 twoDimentionCodeMapper.insert(twoDimentionCode);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            logger.error("FileNotFoundException",e);
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            logger.error("IOException",e);
         }
         return twoDimentionCode;
     }
