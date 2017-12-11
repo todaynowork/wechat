@@ -5,6 +5,8 @@ package com.tn.wechat.rest;
  */
 
 import com.tn.wechat.util.IMyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -13,6 +15,7 @@ import java.io.*;
 import java.net.URL;
 
 public class HttpsUtil {
+    private static final Logger logger = LoggerFactory.getLogger(TwoDimetionCodeController.class);
 
     private IMyUtils utils;
 
@@ -98,13 +101,22 @@ public class HttpsUtil {
             try(InputStream inputStream = conn.getInputStream();ByteArrayOutputStream baos = new ByteArrayOutputStream()){
                 // read from the stream
 //                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                int code = conn.getResponseCode();
+
+                logger.debug(String.format("return status code = %d",code));
+                if(code == 200){
+
+                }
                 byte[] content = new byte[ 2048 ];
                 int bytesRead = -1;
                 while( ( bytesRead = inputStream.read( content ) ) != -1 ) {
                     baos.write( content, 0, bytesRead );
                 } // while
-                return baos.toByteArray();
+                byte[] ret = baos.toByteArray();
 
+                inputStream.close();
+                baos.close();
+                return ret;
             }
         }
         finally {
