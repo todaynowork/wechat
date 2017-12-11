@@ -104,6 +104,7 @@ public class TwoDimetionCodeController {
         TwoDimentionCode twoDimentionCode = null;
 //        String apiUrl = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s";
         byte[] jpg = wechatUtils.get2DCode(bodyObj);
+        logger.debug(new String(jpg));
         logger.debug(String.format("file retrieve from backend, size is %d",jpg.length));
 //        String fileName = utils.generateFileName(null);
         File filePath = new File(twoDCodeLocation + fileName);
