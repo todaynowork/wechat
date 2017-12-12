@@ -1,6 +1,5 @@
 package com.tn.wechat.rest;
 
-import com.mybatis.Course;
 import com.mybatis.CourseSchedule;
 import com.mybatis.cli.CourseScheduleMapper;
 import com.tn.wechat.util.IMyUtils;
@@ -38,16 +37,19 @@ public class CourseScheduleContrlloer {
 	    List<CourseSchedule> allScheduleCourses() {
 	        System.out.println("test dev tool 111");
 	        //return courseMapper.selectAllCourses();
+	        //return courseScheduleMapper.selectAllScheduledCourses();
 	        return courseScheduleMapper.selectAllScheduledCourses();
 	    }
 	    
 	    @GetMapping("/{courseScheduleId}")
 	    public @ResponseBody
 	    CourseSchedule getCourseScheduleById(@PathVariable Integer courseScheduleId, HttpSession session) {
-	    		System.out.println("ssssssssssssssss");
-	    		return courseScheduleMapper.selectByPrimaryKey(courseScheduleId);
+	    		
+	    		//return courseScheduleMapper.selectByPrimaryKey(courseScheduleId);
+	    		return courseScheduleMapper.selectByPrimaryKeyWithCourseID(courseScheduleId);
 	    		//return courseScheduleMapper.selectByCourseScheduleId(courseScheduleId);
 	    		//return courseMapper.selectByPrimaryKey(courseId);
 	    }
+	    
 
 }
