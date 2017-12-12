@@ -134,7 +134,7 @@ public class CourseParticipantContrlloer {
 	public @ResponseBody
 	List<User> getCheckedinBySchedulId(@PathVariable Integer coursScheduleId) {
 		CourseParticipantExample courseParticipantExample = new CourseParticipantExample();
-		courseParticipantExample.createCriteria().andCourseScheduleIdEqualTo(coursScheduleId).andCheckInEqualTo(1);
+		courseParticipantExample.createCriteria().andCourseScheduleIdEqualTo(coursScheduleId).andCheckInEqualTo(1).andParticipantTypeEqualTo("S");
 		UserExample userExample = new UserExample();
 		List<Integer> userIdList = new ArrayList<>();
 		List<CourseParticipant> list = courseParticipantMapper.selectByExample(courseParticipantExample);
