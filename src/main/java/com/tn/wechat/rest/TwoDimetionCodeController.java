@@ -136,7 +136,7 @@ public class TwoDimetionCodeController {
 
 
 
-    @GetMapping("/{filenName}/")
+    @GetMapping("/img/{filenName}/")
     public ResponseEntity<byte[]> get2dCode(@PathVariable String filenName) throws IOException {
         Path path = Paths.get(twoDCodeLocation + filenName);
         byte[] data = Files.readAllBytes(path);

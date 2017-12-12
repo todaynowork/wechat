@@ -37,6 +37,8 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
         //for backend message handle
         addInterceptor.excludePathPatterns("/comm/**");
 
+        addInterceptor.excludePathPatterns("/2_d_code/img/**");
+
         // 拦截配置
         addInterceptor.addPathPatterns("/**");
     }
