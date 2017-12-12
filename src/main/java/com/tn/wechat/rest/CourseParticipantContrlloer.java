@@ -71,7 +71,7 @@ public class CourseParticipantContrlloer {
 	Map<String, Object> checkIn(@RequestBody String inputParmForCheckIn){
 		//input format {"userId":1,"courseScheduleId":5,"mail":"1234@1234.com"}
 		JSONObject inputParmObj= new JSONObject(inputParmForCheckIn);
-		User user = userMapper.selectByPrimaryKey((Integer) inputParmObj.get("userId"));
+		User user = userMapper.selectByPrimaryKey( inputParmObj.getInt("userId"));
 		Map<String, Object> map = new HashMap<>();
 		String email = (String) inputParmObj.get("mail");
 		if(email == null || email.equals("")){
@@ -89,7 +89,7 @@ public class CourseParticipantContrlloer {
 //		CourseParticipant courseParticipant = null;
 		CourseParticipantKey courseParticipantKey = new CourseParticipantKey();
 		courseParticipantKey.setParticipantId(user.getId());
-		courseParticipantKey.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
+		courseParticipantKey.setCourseScheduleId(inputParmObj.getInt("courseScheduleId"));
 //		CourseParticipant courseParticipant = new CourseParticipant();
 		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
 		if (courseParticipant == null){
