@@ -30,6 +30,7 @@ public class CourseSchedule {
 	 */
 	private Date updateTime;
 	
+	private String title;
 
 	private String location;
 	
@@ -148,13 +149,13 @@ public class CourseSchedule {
 		this.updateTime = updateTime;
 	}
 	
-//	public String getTitle() {
-//		return title;
-//	}
-//
-//	public void setTitle(String title) {
-//		this.title = title;
-//	}
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public String getLocation() {
 		return location;
