@@ -300,7 +300,7 @@
         select
         <include refid="Base_Column_List" />,
 <!--         B.DESC, -->
-        B.TITLE
+        B.TITLE, B.DESC, B.MEMO
         from PUBLIC.COURSE_SCHEDULE A
         left outer join PUBLIC.COURSES B on A.COURSE_ID= B.id
     </select>
@@ -314,7 +314,7 @@
        <select id="selectByPrimaryKeyWithCourseID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />,
-        B.DESC, B.TITLE
+        B.DESC, B.TITLE, B.MEMO
         from PUBLIC.COURSE_SCHEDULE A
         left outer join PUBLIC.COURSES B on A.COURSE_ID= B.id
         where A.COURSE_ID = #{id,jdbcType=INTEGER}
