@@ -96,7 +96,7 @@ public class CourseParticipantContrlloer {
 //			map.put("message","Course not register");
 //			return map;
 			CourseParticipant enrollCourseParticipant = new CourseParticipant();
-			enrollCourseParticipant.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
+			enrollCourseParticipant.setCourseScheduleId(inputParmObj.getInt("courseScheduleId"));
 			enrollCourseParticipant.setParticipantId(user.getId());
 			enrollCourseParticipant.setCheckIn(1);
 			enrollCourseParticipant.setParticipantType("S");
