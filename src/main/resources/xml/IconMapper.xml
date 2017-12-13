@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.cli.IconMapper">
+  <resultMap id="BaseResultMap" type="com.mybatis.Icon">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="ALT_TEXT" jdbcType="VARCHAR" property="altText" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATOR" jdbcType="INTEGER" property="creatorId" />
+    <result column="OBJECT_ID" jdbcType="INTEGER" property="objectId" />
+    <result column="TAG" jdbcType="VARCHAR" property="tag" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, ALT_TEXT, URL, UPDATE_TIME, CREATOR, OBJECT_ID, TAG
+  </sql>
+  
+
+<!--   <insert id="insert" parameterType="com.mybatis.Icon">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      CALL IDENTITY()
+    </selectKey>
+    insert into PUBLIC.ICON (ALT_TEXT, URL, UPDATE_TIME, 
+      CREATOR, OBJECT_ID, TAG)
+    values (#{questionId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{desc,jdbcType=VARCHAR}, 
+      #{votes,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{creditId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert> -->
+
+<!--   <update id="updateByExample" parameterType="map">
+    update PUBLIC.ANSWERS
+    set ID = #{record.id,jdbcType=INTEGER},
+      QUESTION_ID = #{record.questionId,jdbcType=INTEGER},
+      PARENT_ID = #{record.parentId,jdbcType=INTEGER},
+      DESC = #{record.desc,jdbcType=VARCHAR},
+      VOTES = #{record.votes,jdbcType=INTEGER},
+      USER_ID = #{record.userId,jdbcType=INTEGER},
+      CREDIT_ID = #{record.creditId,jdbcType=INTEGER},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update> -->
+  
+<!--   <update id="updateByPrimaryKeySelective" parameterType="com.mybatis.Answer">
+    update PUBLIC.ANSWERS
+    <set>
+      <if test="questionId != null">
+        QUESTION_ID = #{questionId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="desc != null">
+        DESC = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="votes != null">
+        VOTES = #{votes,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="creditId != null">
+        CREDIT_ID = #{creditId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update> -->
+  
+  
+<!--   <update id="updateByPrimaryKey" parameterType="com.mybatis.Answer">
+    update PUBLIC.ANSWERS
+    set QUESTION_ID = #{questionId,jdbcType=INTEGER},
+      PARENT_ID = #{parentId,jdbcType=INTEGER},
+      DESC = #{desc,jdbcType=VARCHAR},
+      VOTES = #{votes,jdbcType=INTEGER},
+      USER_ID = #{userId,jdbcType=INTEGER},
+      CREDIT_ID = #{creditId,jdbcType=INTEGER},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update> -->
+  
+      <select id="selectAllIcons" resultMap="BaseResultMap">
+        select A.URL
+        from PUBLIC.ICONS A right outer join COURSES B ON A.OBJECT_ID = B.ID
+    </select>
+    
+     <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select A.URL
+    from PUBLIC.ICONS A RIGHT OUTER JOIN COURSES B ON A.OBJECT_ID=B.ID
+    where OBJECT_ID = #{objectId,jdbcType=INTEGER}
+  </select>
+  
+  
+</mapper>
