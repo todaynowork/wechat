@@ -98,7 +98,7 @@ public class CourseParticipantContrlloer {
 			CourseParticipant enrollCourseParticipant = new CourseParticipant();
 			enrollCourseParticipant.setCourseScheduleId(inputParmObj.getInt("courseScheduleId"));
 			enrollCourseParticipant.setParticipantId(user.getId());
-			enrollCourseParticipant.setCheckIn(1);
+			enrollCourseParticipant.setCheckIn(2);
 			enrollCourseParticipant.setParticipantType("S");
 			enrollCourseParticipant.setUpdateTime(new Date());
 			courseParticipantMapper.insert(enrollCourseParticipant);
@@ -117,7 +117,14 @@ public class CourseParticipantContrlloer {
 	@GetMapping("/getCheckedin")
 	public @ResponseBody
 	List<CourseParticipant> participantCoursesByCheckin() {
-		return courseParticipantMapper.selectParticipatedCoursesByCheckin(1);
+//		List<CourseParticipant> participantList = new ArrayList<>();
+//		participantList.addAll(courseParticipantMapper.selectParticipatedCoursesByCheckin(1));
+//		participantList.addAll(courseParticipantMapper.selectParticipatedCoursesByCheckin(2));
+//		return participantList;
+		CourseParticipantExample courseParticipantExample = new CourseParticipantExample();
+		courseParticipantExample.createCriteria().andCheckInGreaterThan(0);
+		return courseParticipantMapper.selectByExample(courseParticipantExample);
+//		return courseParticipantMapper.selectParticipatedCoursesByCheckin(1);
 	}
 
 
