@@ -93,16 +93,7 @@ public class CourseParticipantContrlloer {
 //		CourseParticipant courseParticipant = new CourseParticipant();
 		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
 		if (courseParticipant == null){
-//			map.put("message","Course not register");
-//			return map;
-			CourseParticipant enrollCourseParticipant = new CourseParticipant();
-			enrollCourseParticipant.setCourseScheduleId(inputParmObj.getInt("courseScheduleId"));
-			enrollCourseParticipant.setParticipantId(user.getId());
-			enrollCourseParticipant.setCheckIn(2);
-			enrollCourseParticipant.setParticipantType("S");
-			enrollCourseParticipant.setUpdateTime(new Date());
-			courseParticipantMapper.insert(enrollCourseParticipant);
-			map.put("message","Enroll and checked in");
+			map.put("message",2);
 			return map;
 		}
 		courseParticipant.setCheckIn(1);
@@ -117,14 +108,7 @@ public class CourseParticipantContrlloer {
 	@GetMapping("/getCheckedin")
 	public @ResponseBody
 	List<CourseParticipant> participantCoursesByCheckin() {
-//		List<CourseParticipant> participantList = new ArrayList<>();
-//		participantList.addAll(courseParticipantMapper.selectParticipatedCoursesByCheckin(1));
-//		participantList.addAll(courseParticipantMapper.selectParticipatedCoursesByCheckin(2));
-//		return participantList;
-		CourseParticipantExample courseParticipantExample = new CourseParticipantExample();
-		courseParticipantExample.createCriteria().andCheckInGreaterThan(0);
-		return courseParticipantMapper.selectByExample(courseParticipantExample);
-//		return courseParticipantMapper.selectParticipatedCoursesByCheckin(1);
+		return courseParticipantMapper.selectParticipatedCoursesByCheckin(1);
 	}
 
 
@@ -164,11 +148,6 @@ public class CourseParticipantContrlloer {
 		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
 		if (courseParticipant == null){
 			map.put("message","Not checked in");
-			return map;
-		}
-		if (courseParticipant.getCheckIn() == 2){
-			courseParticipantMapper.deleteByPrimaryKey(courseParticipantKey);
-			map.put("message","checkout for not register successful");
 			return map;
 		}
 		courseParticipant.setCheckIn(0);
