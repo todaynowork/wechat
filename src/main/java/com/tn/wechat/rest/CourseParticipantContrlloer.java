@@ -166,6 +166,11 @@ public class CourseParticipantContrlloer {
 			map.put("message","Not checked in");
 			return map;
 		}
+		if (courseParticipant.getCheckIn() == 2){
+			courseParticipantMapper.deleteByPrimaryKey(courseParticipantKey);
+			map.put("message","checkout for not register successful");
+			return map;
+		}
 		courseParticipant.setCheckIn(0);
 		courseParticipant.setUpdateTime(new Date());
 		courseParticipantMapper.updateByPrimaryKey(courseParticipant);
