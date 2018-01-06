@@ -86,23 +86,32 @@ public class CourseParticipantContrlloer {
 			user.setUpdateTime(new Date());
 			userMapper.updateByPrimaryKey(user);
 		}
+
+		Integer courseScheduleId = inputParmObj.getInt("courseScheduleId");
 //		CourseParticipant courseParticipant = null;
 		CourseParticipantKey courseParticipantKey = new CourseParticipantKey();
 		courseParticipantKey.setParticipantId(user.getId());
-		courseParticipantKey.setCourseScheduleId(inputParmObj.getInt("courseScheduleId"));
+		courseParticipantKey.setCourseScheduleId(courseScheduleId);
 //		CourseParticipant courseParticipant = new CourseParticipant();
 		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
 		if (courseParticipant == null){
 //			map.put("message",2);
 //			return map;
+            courseParticipant = new CourseParticipant();
+            courseParticipant.setCourseScheduleId(courseScheduleId);
+            courseParticipant.setParticipantId(user.getId());
+            courseParticipant.setParticipantType("S");
 			courseParticipant.setCheckIn(0);  //注册
+            courseParticipant.setUpdateTime(new Date());
+            courseParticipantMapper.insert(courseParticipant);
 		}else{
 			courseParticipant.setCheckIn(1);   //签到
+            courseParticipant.setUpdateTime(new Date());
+            courseParticipantMapper.updateByPrimaryKey(courseParticipant);
 		}
 //		courseParticipant.setParticipantId(user.getId());
 //		courseParticipant.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
-		courseParticipant.setUpdateTime(new Date());
-		courseParticipantMapper.updateByPrimaryKey(courseParticipant);
+
 		map.put("message","checkin successful");
 		return map;
 	}
