@@ -88,6 +88,9 @@ public class CourseParticipantContrlloer {
 		}
 
 		Integer courseScheduleId = inputParmObj.getInt("courseScheduleId");
+		String checkInType = inputParmObj.getString("checkInType");
+		if(checkInType == null || checkInType.isEmpty())
+            checkInType = "S";
 //		CourseParticipant courseParticipant = null;
 		CourseParticipantKey courseParticipantKey = new CourseParticipantKey();
 		courseParticipantKey.setParticipantId(user.getId());
@@ -100,7 +103,7 @@ public class CourseParticipantContrlloer {
             courseParticipant = new CourseParticipant();
             courseParticipant.setCourseScheduleId(courseScheduleId);
             courseParticipant.setParticipantId(user.getId());
-            courseParticipant.setParticipantType("S");
+            courseParticipant.setParticipantType(checkInType);
 			courseParticipant.setCheckIn(0);  //注册
             courseParticipant.setUpdateTime(new Date());
             courseParticipantMapper.insert(courseParticipant);
