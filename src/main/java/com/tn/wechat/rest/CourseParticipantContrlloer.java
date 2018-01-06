@@ -125,9 +125,10 @@ public class CourseParticipantContrlloer {
 
 	@GetMapping("/getCheckedinByScheduleId/{coursScheduleId}")
 	public @ResponseBody
-	List<User> getCheckedinBySchedulId(@PathVariable Integer coursScheduleId) {
+	List<User> getCheckedinBySchedulId(@PathVariable Integer coursScheduleId, @RequestParam(value = "flagSign", required = false, defaultValue = "1") Integer flagSign) {
 		CourseParticipantExample courseParticipantExample = new CourseParticipantExample();
-		courseParticipantExample.createCriteria().andCourseScheduleIdEqualTo(coursScheduleId).andCheckInEqualTo(1).andParticipantTypeEqualTo("S");
+
+		courseParticipantExample.createCriteria().andCourseScheduleIdEqualTo(coursScheduleId).andCheckInEqualTo(flagSign).andParticipantTypeEqualTo("S");
 		UserExample userExample = new UserExample();
 		List<Integer> userIdList = new ArrayList<>();
 		List<CourseParticipant> list = courseParticipantMapper.selectByExample(courseParticipantExample);
