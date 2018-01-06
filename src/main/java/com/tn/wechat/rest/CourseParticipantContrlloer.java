@@ -88,8 +88,11 @@ public class CourseParticipantContrlloer {
 		}
 
 		Integer courseScheduleId = inputParmObj.getInt("courseScheduleId");
-		String checkInType = inputParmObj.getString("checkInType");
-		if(checkInType == null || checkInType.isEmpty())
+		String checkInType = null;
+		if (!inputParmObj.isNull("checkInType"))
+            checkInType = inputParmObj.getString("checkInType");
+
+        if(checkInType == null || checkInType.isEmpty())
             checkInType = "S";
 //		CourseParticipant courseParticipant = null;
 		CourseParticipantKey courseParticipantKey = new CourseParticipantKey();
