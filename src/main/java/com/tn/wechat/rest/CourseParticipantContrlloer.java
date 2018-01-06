@@ -93,10 +93,12 @@ public class CourseParticipantContrlloer {
 //		CourseParticipant courseParticipant = new CourseParticipant();
 		CourseParticipant courseParticipant = courseParticipantMapper.selectByPrimaryKey(courseParticipantKey);
 		if (courseParticipant == null){
-			map.put("message",2);
-			return map;
+//			map.put("message",2);
+//			return map;
+			courseParticipant.setCheckIn(0);  //注册
+		}else{
+			courseParticipant.setCheckIn(1);   //签到
 		}
-		courseParticipant.setCheckIn(1);
 //		courseParticipant.setParticipantId(user.getId());
 //		courseParticipant.setCourseScheduleId((Integer) inputParmObj.get("courseScheduleId"));
 		courseParticipant.setUpdateTime(new Date());
