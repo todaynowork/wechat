@@ -68,7 +68,10 @@ public class TwoDimetionCodeController {
 
         if(lst!=null && lst.size() >0){
             twoDimentionCode = lst.get(0);
-            if(isReNew == true){
+            String fileName = twoDimentionCode.getFileName();
+            if(!Files.exists(Paths.get(twoDCodeLocation + fileName)))
+
+            if(isReNew == true || !Files.exists(Paths.get(twoDCodeLocation + fileName))){
                 twoDimentionCode = getTwoDimentionCode(bodyObj, twoDimentionCode.getId(),twoDimentionCode.getFileName());
             }
         }else{
