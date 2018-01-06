@@ -138,12 +138,18 @@ public class CourseParticipantContrlloer {
 	    return courseParticipantMapper.selectByPrimaryKey(key);
 	}
 
+    /**
+     *
+     * @param coursScheduleId
+     * @param listType listType - 0 注册的列表， 1 - 签到的列表
+     * @return
+     */
 	@GetMapping("/getCheckedinByScheduleId/{coursScheduleId}")
 	public @ResponseBody
-	List<User> getCheckedinBySchedulId(@PathVariable Integer coursScheduleId, @RequestParam(value = "flagSign", required = false, defaultValue = "1") Integer flagSign) {
+	List<User> getCheckedinBySchedulId(@PathVariable Integer coursScheduleId, @RequestParam(value = "listType", required = false, defaultValue = "1") Integer listType) {
 		CourseParticipantExample courseParticipantExample = new CourseParticipantExample();
 
-		courseParticipantExample.createCriteria().andCourseScheduleIdEqualTo(coursScheduleId).andCheckInEqualTo(flagSign).andParticipantTypeEqualTo("S");
+		courseParticipantExample.createCriteria().andCourseScheduleIdEqualTo(coursScheduleId).andCheckInEqualTo(listType).andParticipantTypeEqualTo("S");
 		UserExample userExample = new UserExample();
 		List<Integer> userIdList = new ArrayList<>();
 		List<CourseParticipant> list = courseParticipantMapper.selectByExample(courseParticipantExample);
