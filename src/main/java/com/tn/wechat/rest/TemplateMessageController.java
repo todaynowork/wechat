@@ -4,6 +4,7 @@ import com.tn.wechat.util.WechatUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,7 +21,8 @@ public class TemplateMessageController {
     }
 
     @GetMapping("/send_template_message")
-    public String access_token(){
+    public @ResponseBody
+    String access_token(){
         return wechatUtils.sendTemplateMessage();
     }
 }
