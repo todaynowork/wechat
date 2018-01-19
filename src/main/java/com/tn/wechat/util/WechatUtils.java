@@ -17,6 +17,8 @@ public class WechatUtils {
     @Value("{wx.url.openid}")
     private static String OPEN_ID_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
     public static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
+    /*send template message*/
+    public static final String TEMPLATE_MESSAGE_URL = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=%s";
 
     @Value( "${wx.appId}" )
     private String  APPID = null;
@@ -82,6 +84,22 @@ public class WechatUtils {
         access_token = json.getString("access_token");
     }
 
+    /*send template message*/
+    public String sendTemplateMessage(){
+        String access_token =  this.getAccess_token();
+        String templateMessageUrl = String.format(TEMPLATE_MESSAGE_URL,access_token);
+        JSONObject body = new JSONObject();
+        body.put("touser","openId");
+        body.put("template_id","templateId");
+        body.put("form_id","formId");
+        body.put("value","message");
+        /*not necessary*/
+//        body.put("color","");
+//        body.put("page","点击模版卡片的跳转页面");
+//        body.put("emphasis_keyword","DATA");
+        return HttpsUtil.httpsRequestToString(templateMessageUrl,"POST",body.toString());
+//        return body.toString();
+    }
 
 
     public boolean checkSignature(String signature,String timestamp,String nonce){
