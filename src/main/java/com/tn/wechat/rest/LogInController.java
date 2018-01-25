@@ -6,24 +6,16 @@ package com.tn.wechat.rest;
 //import org.json.JSONObject;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class LogInController extends HttpServlet{
@@ -36,7 +28,12 @@ public class LogInController extends HttpServlet{
     @RequestMapping(value = "/getLogIn/{code}", method = RequestMethod.GET )
     public String getLogIn(@PathVariable("code") String code){
         String getCodeUrl = getCodeUrl(code);
-        String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
+        String getContent = null;
+        try {
+            getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return getContent;
     }
@@ -98,7 +95,12 @@ public class LogInController extends HttpServlet{
         }
         String code = headers.get("code").toString();
         String getCodeUrl = getCodeUrl(code);
-        String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
+        String getContent = null;
+        try {
+            getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         map = JsonTransfer.readJson2Map(getContent);
         if (!(map.get("errmsg") == null)) {
             map.put("errmessage:", map.get("errmsg"));

@@ -24,7 +24,7 @@ public class HttpsUtil {
         this.utils = utils;
     }
 
-    public static String httpsRequestToString(String path, String method, String body) {
+    public static String httpsRequestToString(String path, String method, String body) throws IOException {
         if(path == null || method == null){
             return null;
         }
@@ -55,7 +55,9 @@ public class HttpsUtil {
             }
 
             response = buffer.toString();
-        } catch (Exception e) {}
+        } catch (IOException e) {
+            throw e;
+        }
         finally {
             if (conn != null) {
                 conn.disconnect();
@@ -65,7 +67,7 @@ public class HttpsUtil {
                 inputStreamReader.close();
                 inputStream.close();
             } catch (IOException execption) {
-
+                throw execption;
             }
         }
         return response;

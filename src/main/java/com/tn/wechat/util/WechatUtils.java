@@ -4,6 +4,7 @@ import com.tn.wechat.rest.HttpsUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -34,7 +35,12 @@ public class WechatUtils {
 //        Map<String, String> map = new HashMap<String, String>();
         // 设置session
         String getCodeUrl = String.format(OPEN_ID_URL,APPID,SECRET,code);
-        String getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
+        String getContent = null;
+        try {
+            getContent = HttpsUtil.httpsRequestToString(getCodeUrl,"GET",null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        map = JsonTransfer.readJson2Map(getContent);
 //        if (!(map.get("errmsg") == null)) {
 //            map.put("errmessage", map.get("errmsg"));
@@ -48,7 +54,13 @@ public class WechatUtils {
 
     public String getAccessTokenString() {
         String tokenApiUrl = String.format(ACCESS_TOKEN_URL,APPID,SECRET);
-        return HttpsUtil.httpsRequestToString(tokenApiUrl,"GET",null);
+        String token = null;
+        try {
+            token =  HttpsUtil.httpsRequestToString(tokenApiUrl,"GET",null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return token;
     }
 
 
@@ -164,5 +176,93 @@ public class WechatUtils {
 
         }
 
+    }
+
+    /**
+     *
+     * @param config {
+    "offset":0,
+    "count":1
+    }
+    https://mp.weixin.qq.com/debug/wxadoc/dev/api/notice.html#%E6%A8%A1%E7%89%88%E6%B6%88%E6%81%AF%E7%AE%A1%E7%90%86
+     * @return
+     */
+    public String getTemplateList(@RequestBody String config){
+        String apiUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/template/list?access_token=%s";
+        return sendRequest(config, apiUrl);
+    }
+
+    /**
+     * {
+     "template_id":"wDYzYZVxobJivW9oMpSCpuvACOfJXQIoKUm0PY397Tc"
+     }
+     * @param config
+     * @return
+     * {
+    "errcode": 0,
+    "errmsg": "ok"
+    }
+     *
+     *
+     */
+    public String delTemplateById(@RequestBody String config){
+        String apiUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/template/del?access_token=%s";
+        return sendRequest(config, apiUrl);
+    }
+
+
+    /**
+     *
+     * @param config
+     * @return
+     */
+    public String sendTemplate(@RequestBody String config){
+        String apiUrl = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=%s";
+        return sendRequest(config, apiUrl);
+    }
+
+    /**
+     * add template to wechat micro account
+     * @param config
+     * @return
+     */
+    public String addTemplate(@RequestBody String config){
+        String apiUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/template/add?access_token=%s";
+        return sendRequest(config, apiUrl);
+    }
+
+    /**
+     *
+     * @param config
+     * @return
+     */
+    public String templateLibGet(@RequestBody String config){
+        String apiUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/template/library/get?access_token=%s";
+        return sendRequest(config, apiUrl);
+    }
+
+    /**
+     *
+     * @param config
+     * @return
+     */
+    public String templateLibList(@RequestBody String config){
+        String apiUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/template/library/list?access_token=%s";
+        return sendRequest(config, apiUrl);
+    }
+
+
+    private String sendRequest(@RequestBody String config, String apiUrl) {
+        String access_token =  this.getAccess_token();
+        apiUrl = String.format(apiUrl,access_token);
+        String tempLst=null;
+
+
+        try {
+            tempLst= HttpsUtil.httpsRequestToString(apiUrl,"POST",config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tempLst;
     }
 }
