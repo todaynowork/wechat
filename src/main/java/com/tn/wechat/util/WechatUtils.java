@@ -109,8 +109,14 @@ public class WechatUtils {
 //        body.put("color","");
 //        body.put("page","点击模版卡片的跳转页面");
 //        body.put("emphasis_keyword","DATA");
-        return HttpsUtil.httpsRequestToString(templateMessageUrl,"POST",body.toString());
+        String retValue = null;
+        try {
+            retValue = HttpsUtil.httpsRequestToString(templateMessageUrl,"POST",body.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        return body.toString();
+        return retValue;
     }
 
 
