@@ -1,5 +1,6 @@
 package com.tn.wechat.rest;
 
+import com.tn.wechat.util.WechatUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -50,9 +51,9 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter  {
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
                 throws Exception {
             HttpSession session = request.getSession();
-            System.out.println("open id:" +session.getAttribute("WECHAT_OPENID"));
+            System.out.println("open id:" +session.getAttribute(WechatUtils.SESSION_KEY_WECHAT_OPENID));
 //            Object openId = session.getAttribute(session.getAttribute(session.getId()).toString());
-            if (session.getAttribute("WECHAT_OPENID") != null ) {
+            if (session.getAttribute(WechatUtils.SESSION_KEY_WECHAT_OPENID) != null ) {
                 //add session check
                 return true;
             }

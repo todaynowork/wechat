@@ -25,8 +25,6 @@ public class UserController {
 
     private UserMapper userMapper;
 
-
-
     private IMyUtils utils;
 
     @Autowired
@@ -91,7 +89,7 @@ public class UserController {
 //        Map<String,String> hashMap = (Map<String,String>) SecurityContextHolder.getContext().getAuthentication().getDetails();
 //
 //        System.out.println(hashMap.get("WECHAT_OPENID"));
-        String open_id =(String) session.getAttribute("WECHAT_OPENID");
+        String open_id =(String) session.getAttribute(WechatUtils.SESSION_KEY_WECHAT_OPENID);
         User oldUser = userMapper.selectByOpenId(open_id);
 //        User oldUser = userMapper.selectByPrimaryKey(newUser.getOpenId());
 

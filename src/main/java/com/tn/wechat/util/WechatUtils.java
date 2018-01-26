@@ -14,6 +14,7 @@ import java.util.Arrays;
 public class WechatUtils {
 
     public static final String TWO_DIM_CODE_CREATE = "https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=%s";
+    public static final String SESSION_KEY_WECHAT_OPENID = "WECHAT_OPENID";
 
     @Value("{wx.url.openid}")
     private static String OPEN_ID_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
