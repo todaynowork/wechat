@@ -30,10 +30,16 @@ public class TemplateMessageController {
 
     @PostMapping("/send_order_success")
     public String send_order_success(@RequestBody String request, HttpSession session){
+        return this.sendTemplate(TEMPLATE_ID_SUCCESS_BOOK_NOTIFY,request,session);
+    }
+
+
+    @PostMapping("/send_template/{templateId}")
+    public String sendTemplate(@PathVariable String templateId,  @RequestBody String request, HttpSession session){
         JSONObject requestJson =  new JSONObject(request);
 //        if(requestJson.has("template_id"))
         String open_id =(String) session.getAttribute(WechatUtils.SESSION_KEY_WECHAT_OPENID);
-        requestJson.put("template_id", TEMPLATE_ID_SUCCESS_BOOK_NOTIFY);
+        requestJson.put("template_id", templateId);
         requestJson.put("touser",open_id);
         System.out.println(requestJson.toString());
         String retValue = wechatUtils.sendTemplate(requestJson.toString());
