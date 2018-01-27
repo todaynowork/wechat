@@ -21,9 +21,9 @@ public class AliOSSImageRepo implements IImageRepository {
 
     // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建
     @Value( "${ali.oss.access.key.id}" )
-    String accessKeyId = "LTAIwq9ZEPFFdYfl";
+    String accessKeyId = "";
     @Value( "${ali.oss.access.key.secret}" )
-    String accessKeySecret = "owuZsdtVLmJ8J88TDYlLsFqMkG5q0V";
+    String accessKeySecret = "";
 
     @Value( "${ali.oss.2d.code.bucket.name}" )
     String defaultBucketName = "wechat-2dcode";
