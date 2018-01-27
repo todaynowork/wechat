@@ -1,5 +1,13 @@
+import org.apache.tools.ant.filters.ReplaceTokens
 
 def env = System.getProperty("env") ?: "dev"
+
+ext.buildProfile = env
+//if (!hasProperty('buildProfile')) ext.buildProfile = 'default'
+//apply from: "profile-${buildProfile}.gradle"
+if (file("profile-${buildProfile}.gradle").exists()){
+    apply from: "profile-${buildProfile}.gradle"
+}
 
 buildscript {
 	ext {
@@ -29,12 +37,25 @@ repositories {
 	mavenCentral()
 }
 
-sourceSets {
-	main {
-		resources {
-			srcDirs = ["src/main/resources", "src/main/profile/$env"]
-		}
-	}
+//sourceSets {
+//	main {
+//		resources {
+//			srcDirs = ["src/main/resources", "src/main/profile/$env"]
+//		}
+//	}
+//}
+
+
+processResources {
+//    expand(version: version, buildNumber: currentBuildNumber)
+    filteringCharset = 'UTF-8'
+
+    filesMatching("**/*.properties") {
+        expand(project.properties)
+    }
+
+
+//    filter(ReplaceTokens, tokens: [copyright: '2009', version: '2.3.1'])
 }
 
 dependencies {
@@ -57,17 +78,7 @@ dependencies {
     compile ("org.springframework.boot:spring-boot-starter-data-redis" ){
         exclude module: 'spring-boot-starter-logging'
     }
-
-//    if(env!="production"){
-//        runtime('org.springframework.boot:spring-boot-devtools')
-//    }
-
-//    compile ("org.springframework.data:spring-data-redis") {
-//        exclude group: "org.slf4j", module: 'slf4j-api'
-//        exclude group: "org.slf4j", module: 'jcl-over-slf4j'
-//    }
-//    compile "redis.clients:jedis",
-//            "org.apache.commons:commons-pool2"
+	compile "com.aliyun.oss:aliyun-sdk-oss:2.8.3"
 }
 
 // mainClassName = "com.tn.wechat.WechatApplication"

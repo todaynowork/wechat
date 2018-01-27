@@ -3,12 +3,17 @@ package com.tn.wechat.rest;
 import com.mybatis.TwoDimentionCode;
 import com.mybatis.TwoDimentionCodeExample;
 import com.mybatis.cli.TwoDimentionCodeMapper;
+import com.tn.wechat.repo.AliOSSImageRepo;
+import com.tn.wechat.repo.IImageRepository;
+import com.tn.wechat.repo.TempFileImageRepo;
 import com.tn.wechat.util.IMyUtils;
 import com.tn.wechat.util.WechatUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +29,31 @@ import java.util.List;
 public class TwoDimetionCodeController {
 
     private IMyUtils utils;
+    private IImageRepository repository;
 
     @Autowired
     public void setUtils(IMyUtils utils){
         this.utils = utils;
     }
 
+    @Autowired
+    public void setImageRepository(IImageRepository repository){
+        this.repository = repository;
+    }
+
+
+    @Bean
+    @Profile("production")
+    public  IImageRepository createImgRepository(){
+        return new AliOSSImageRepo();
+    }
+
+
+    @Bean
+    @Profile("dev")
+    public  IImageRepository createImgRepositoryTmp(){
+        return new TempFileImageRepo();
+    }
 
     private WechatUtils wechatUtils;
 
@@ -47,8 +71,8 @@ public class TwoDimetionCodeController {
 
     private static final Logger logger = LoggerFactory.getLogger(TwoDimetionCodeController.class);
 
-    //二维码存放目录
-    private String twoDCodeLocation = "/tmp/";
+//    //二维码存放目录
+//    private String twoDCodeLocation = "/tmp/";
 
     @PostMapping("")
     public TwoDimentionCode create2dCode(@RequestBody String body){
@@ -69,9 +93,7 @@ public class TwoDimetionCodeController {
         if(lst!=null && lst.size() >0){
             twoDimentionCode = lst.get(0);
             String fileName = twoDimentionCode.getFileName();
-            if(!Files.exists(Paths.get(twoDCodeLocation + fileName)))
-
-            if(isReNew == true || !Files.exists(Paths.get(twoDCodeLocation + fileName))){
+            if(isReNew == true || !repository.isExist(fileName)){
                 twoDimentionCode = getTwoDimentionCode(bodyObj, twoDimentionCode.getId(),twoDimentionCode.getFileName());
             }
         }else{
@@ -109,12 +131,7 @@ public class TwoDimetionCodeController {
         byte[] jpg = wechatUtils.get2DCode(bodyObj);
         logger.debug(new String(jpg));
         logger.debug(String.format("file retrieve from backend, size is %d",jpg.length));
-//        String fileName = utils.generateFileName(null);
-        File filePath = new File(twoDCodeLocation + fileName);
-        try(OutputStream out = new BufferedOutputStream(new FileOutputStream(filePath))) {
-            out.write(jpg);
-            out.flush();
-            out.close();
+        if(repository.addImage(fileName,jpg)){
             twoDimentionCode = new TwoDimentionCode();
             if(id!=null)
                 twoDimentionCode.setId(id);
@@ -126,12 +143,6 @@ public class TwoDimetionCodeController {
                 twoDimentionCodeMapper.updateByPrimaryKey(twoDimentionCode);
             else
                 twoDimentionCodeMapper.insert(twoDimentionCode);
-        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-            logger.error("FileNotFoundException",e);
-        } catch (IOException e) {
-//            e.printStackTrace();
-            logger.error("IOException",e);
         }
         return twoDimentionCode;
     }
@@ -141,8 +152,8 @@ public class TwoDimetionCodeController {
 
     @GetMapping("/img/{filenName}/")
     public ResponseEntity<byte[]> get2dCode(@PathVariable String filenName) throws IOException {
-        Path path = Paths.get(twoDCodeLocation + filenName);
-        byte[] data = Files.readAllBytes(path);
+
+        byte[] data = repository.getImageById(filenName);
 
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).contentLength(data.length).body(data);
 
