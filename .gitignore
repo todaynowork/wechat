@@ -1,6 +1,9 @@
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
+profile-dev.gradle
+profile-du.gradle
+profile-prod.gradle
 
 ### STS ###
 .apt_generated
