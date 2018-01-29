@@ -12,8 +12,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Profile("production")
+
 @Component
+@Profile("production")
 public class AliOSSImageRepo implements IImageRepository {
 
     @Override
@@ -23,19 +24,22 @@ public class AliOSSImageRepo implements IImageRepository {
     }
 
     // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建
-    @Value( "${ali.oss.access.key.id}" )
-    String accessKeyId = "";
-    @Value( "${ali.oss.access.key.secret}" )
-    String accessKeySecret = "";
+//    @Value( "${ali.oss.access.key.id}" )
+//    String accessKeyId = "";
+//    @Value( "${ali.oss.access.key.secret}" )
+//    String accessKeySecret = "";
 
     @Value( "${ali.oss.2d.code.bucket.name}" )
     String defaultBucketName = "wechat-2dcode";
     // 华北2 endpoint以杭州为例，其它region请按实际情况填写 //oss-cn-beijing-internal.aliyuncs.com https://help.aliyun.com/document_detail/31837.html?spm=5176.doc31839.6.581.sm2Dl4
-    @Value( "${ali.oss.endpoint}" )
-    String endpoint = "http://oss-cn-beijing.aliyuncs.com";
+//    @Value( "${ali.oss.endpoint}" )
+//    String endpoint = "http://oss-cn-beijing.aliyuncs.com";
 
     OSSClient ossClient = null;
-    public AliOSSImageRepo(){
+    public AliOSSImageRepo(@Value( "${ali.oss.access.key.id}" )
+                                   String accessKeyId,@Value( "${ali.oss.access.key.secret}" )
+            String accessKeySecret,@Value( "${ali.oss.endpoint}" )
+            String endpoint){
 
         // 创建OSSClient实例
         ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
@@ -81,9 +85,9 @@ public class AliOSSImageRepo implements IImageRepository {
     }
 
     public static void main(String[] args){
-        AliOSSImageRepo aliOSSImageRepo = new AliOSSImageRepo();
-
-        aliOSSImageRepo.addImage("test","abcd".getBytes());
+//        AliOSSImageRepo aliOSSImageRepo = new AliOSSImageRepo();
+//
+//        aliOSSImageRepo.addImage("test","abcd".getBytes());
 
     }
 }
