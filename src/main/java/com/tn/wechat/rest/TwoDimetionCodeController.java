@@ -42,18 +42,18 @@ public class TwoDimetionCodeController {
     }
 
 
-    @Bean
-    @Profile("production")
-    public  IImageRepository createImgRepository(){
-        return new AliOSSImageRepo();
-    }
-
-
-    @Bean
-    @Profile("dev")
-    public  IImageRepository createImgRepositoryTmp(){
-        return new TempFileImageRepo();
-    }
+//    @Bean
+//    @Profile("production")
+//    public  IImageRepository createImgRepository(){
+//        return new AliOSSImageRepo();
+//    }
+//
+//
+//    @Bean
+//    @Profile("dev")
+//    public  IImageRepository createImgRepositoryTmp(){
+//        return new TempFileImageRepo();
+//    }
 
     private WechatUtils wechatUtils;
 

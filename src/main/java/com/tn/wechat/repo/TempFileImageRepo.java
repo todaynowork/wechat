@@ -1,10 +1,15 @@
 package com.tn.wechat.repo;
 
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Profile("dev")
+@Component
 public class TempFileImageRepo implements IImageRepository{
 
     //二维码存放目录
